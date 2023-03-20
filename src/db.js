@@ -5,7 +5,7 @@ require("dotenv").config();
 const { DB_USER, DB_PASSWORD, DB_HOST,DB_NAME_BD } = process.env
 
 const sequelize = new Sequelize(
-    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME_BD}`,{logging:false}
+    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME_BD}`,{logging:false} 
 )
 
 //Ejecuto los modelos:
