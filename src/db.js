@@ -1,19 +1,40 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
+const {
+  userDataModels,
+  userCategoriModels,
+  userLoginModels,
+  userStateModels,
+} = require("./models/Usuarios/index");
 
+const {
+  producModels,
+  productCategoriModels,
+  productColorModels,
+  productMarcaModels,
+  productTallesModels,
+} = require("./models/Productos/index");
 
-const { DB_USER, DB_PASSWORD, DB_HOST,DB_NAME_BD } = process.env
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME_BD } = process.env;
 
 const sequelize = new Sequelize(
-    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME_BD}`,{logging:false} 
-)
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME_BD}`,
+  { logging: false }
+);
 
 //Ejecuto los modelos:
+ //User:
+  userDataModels(sequelize),
+  userCategoriModels(sequelize),
+  userLoginModels(sequelize),
+  userStateModels(sequelize),
+  //Product:
+  producModels(sequelize),
+  productCategoriModels(sequelize),
+  productColorModels(sequelize),
+  productMarcaModels(sequelize),
+  productTallesModels(sequelize),
+  //Relaciono los modelos:
+  //userdata 1 --- 1
 
-
-//Relaciono los modelos:
-//User 1------N Post
-
-
-
-module.exports = {sequelize, ...sequelize.models};
+  (module.exports = { sequelize, ...sequelize.models });
