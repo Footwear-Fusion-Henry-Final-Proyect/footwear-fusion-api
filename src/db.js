@@ -17,7 +17,10 @@ const {
 
 const {
   reviewsPunctuation
-} = require("./models/Reviews-Puntajes/index")
+} = require("./models/Reviews-Puntajes/index");
+
+const { promocionesModels } = require("./models/Promociones");
+const { newsletterModels } = require("./models/Newsletter");
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME_BD } = process.env;
 
@@ -42,7 +45,12 @@ const sequelize = new Sequelize(
 
   //Reviews
   reviewsPunctuation(sequelize)
-  
+
+  //promociones:
+  promocionesModels(sequelize)
+
+  //Newsletter:
+  newsletterModels(sequelize)
   //Relaciono los modelos:
   //userdata 1 --- 1
 
