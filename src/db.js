@@ -51,7 +51,26 @@ const sequelize = new Sequelize(
 
   //Newsletter:
   newsletterModels(sequelize)
+
   //Relaciono los modelos:
-  //userdata 1 --- 1
+  const {
+    Newsletter,
+    CategoriProduct,
+    ColorProduct,
+    MarcaProduct,
+    Product,
+    TalleProduct,
+    Promotions,
+    ReviewsPuntuacion,
+    CategoriUser,
+    DataUser,
+    LoginUser,
+    UserState,
+  } = sequelize.models
+  
+  //userdata 1 --- 1 loginUser
+  LoginUser.hasOne(DataUser);
+  DataUser.belongsTo(LoginUser);
+
 
   module.exports = { sequelize, ...sequelize.models };

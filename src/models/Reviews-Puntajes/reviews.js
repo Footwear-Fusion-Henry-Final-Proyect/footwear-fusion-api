@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("Reviews-Puntuacion", {
+  sequelize.define("ReviewsPuntuacion", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
