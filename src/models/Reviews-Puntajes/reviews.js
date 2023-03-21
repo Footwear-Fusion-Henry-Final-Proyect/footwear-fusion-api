@@ -8,12 +8,10 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     punctuation: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.FLOAT,
     },
     review: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
   });
 };
