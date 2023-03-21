@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const bcryptjs = require('bcryptjs');
 
 module.exports = (sequelize) => {
-  sequelize.define("LoginUser", {
+  const LoginUser = sequelize.define("LoginUser", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -25,15 +25,16 @@ module.exports = (sequelize) => {
   });
 
   // Método para cifrar la contraseña
-Users.beforeCreate(async (user) => {
-  const salt = await bcryptjs.genSalt(10);
-  user.password = await bcryptjs.hash(user.password, salt);
-});
+  LoginUser.beforeCreate(async (user) => {
+    const salt = await bcryptjs.genSalt(10);
+    user.password = await bcryptjs.hash(user.password, salt);
+  });
 
-// Método para comparar la contraseña ingresada con la almacenada en la base de datos
-Users.prototype.comparePassword = async function (password, receivedPassword) {
-  return await bcryptjs.compare(password, receivedPassword);
-};
+  // Método para comparar la contraseña ingresada con la almacenada en la base de datos
+  LoginUser.prototype.comparePassword = async function (password, receivedPassword) {
+    return await bcryptjs.compare(password, receivedPassword);
+  };
 
+  return LoginUser;
 };
 

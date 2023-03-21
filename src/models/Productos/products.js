@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     image: {
@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     stock: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   });

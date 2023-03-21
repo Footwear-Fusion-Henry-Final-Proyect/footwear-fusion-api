@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     talle: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
