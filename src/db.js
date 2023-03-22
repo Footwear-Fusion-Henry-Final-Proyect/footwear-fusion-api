@@ -17,7 +17,7 @@ const {
 
 const {
   reviewsPunctuation
-} = require("./models/Reviews-Puntajes/index");
+} = require("./models/ReviewsPuntajes/index");
 
 const { promocionesModels } = require("./models/Promociones");
 const { newsletterModels } = require("./models/Newsletter");
@@ -79,6 +79,28 @@ const sequelize = new Sequelize(
   //UserState --- N LoginUser
   UserState.hasMany(LoginUser);
   LoginUser.belongsTo(UserState);
+
+  //loginUser n --- n product
+  LoginUser.belongsToMany(Product, { through: 'UserYProduct' });
+  Product.belongsToMany(LoginUser, { through: 'UserYProduct' });
+
+  //CategoriProduct --- N Product
+  CategoriProduct.hasMany(Product);
+  Product.belongsTo(CategoriProduct);
+
+  //MarcaProduct --- N Product
+  MarcaProduct.hasMany(Product);
+  Product.belongsTo(MarcaProduct);
+
+  //ColorProduct n --- n product
+  ColorProduct.belongsToMany(Product, { through: 'ColoYProduct' });
+  Product.belongsToMany(ColorProduct, { through: 'ColorYProduct' });
+
+  //tallesProduct n --- n product
+  TalleProduct.belongsToMany(Product, { through: 'TallesYProducto' });
+  Product.belongsToMany(TalleProduct, { through: 'TallesYProducto' });
+
+  
 
 
   module.exports = { sequelize, ...sequelize.models };
