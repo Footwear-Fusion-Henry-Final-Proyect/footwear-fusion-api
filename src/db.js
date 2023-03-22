@@ -72,5 +72,13 @@ const sequelize = new Sequelize(
   LoginUser.belongsTo(DataUser);
   DataUser.belongsTo(LoginUser);
 
+  //CategoriUser --- N LoginUser
+  CategoriUser.hasMany(LoginUser);
+  LoginUser.belongsTo(CategoriUser);
+
+  //UserState --- N LoginUser
+  UserState.hasMany(LoginUser);
+  LoginUser.belongsTo(UserState);
+
 
   module.exports = { sequelize, ...sequelize.models };
