@@ -69,7 +69,7 @@ const sequelize = new Sequelize(
   } = sequelize.models
   
   //userdata 1 --- 1 loginUser
-  LoginUser.hasOne(DataUser);
+  LoginUser.belongsTo(DataUser);
   DataUser.belongsTo(LoginUser);
 
 
