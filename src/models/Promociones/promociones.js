@@ -9,6 +9,10 @@ module.exports = (sequelize) => {
     },
     discount: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    code: {
+      type: DataTypes.INTEGER
     },
     current: {
       type: DataTypes.BOOLEAN,
@@ -19,4 +23,9 @@ module.exports = (sequelize) => {
         defaultValue: () => moment().add(15, 'days').toDate(),
     }
   });
+
+  // Promotions.addHook(async (instance, options) => {
+  //   instance.code = await Math.floor(Math.random() * 900000) + 100000;
+  // });
+
 };

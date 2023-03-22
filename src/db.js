@@ -16,8 +16,12 @@ const {
 } = require("./models/Productos/index");
 
 const {
-  reviewsPunctuation
-} = require("./models/ReviewsPuntajes/index");
+    compraCartModels,
+    compraProductModels,
+    compraOrdenCompraModels,
+} = require("./models/Compra/index");
+
+const { reviewsPunctuation } = require("./models/ReviewsPuntajes/index");
 
 const { promocionesModels } = require("./models/Promociones");
 const { newsletterModels } = require("./models/Newsletter");
@@ -30,77 +34,105 @@ const sequelize = new Sequelize(
 );
 
 //Ejecuto los modelos:
- //User:
-  userDataModels(sequelize),
-  userCategoriModels(sequelize),
-  userLoginModels(sequelize),
-  userStateModels(sequelize),
-
+//User:
+  userDataModels(sequelize);
+  userCategoriModels(sequelize);
+  userLoginModels(sequelize);
+  userStateModels(sequelize);
   //Product:
-  producModels(sequelize),
-  productCategoriModels(sequelize),
-  productColorModels(sequelize),
-  productMarcaModels(sequelize),
-  productTallesModels(sequelize),
-
+  producModels(sequelize);
+  productCategoriModels(sequelize);
+  productColorModels(sequelize);
+  productMarcaModels(sequelize);
+  productTallesModels(sequelize);
   //Reviews
-  reviewsPunctuation(sequelize)
-
+  reviewsPunctuation(sequelize);
   //promociones:
-  promocionesModels(sequelize)
-
+  promocionesModels(sequelize);
   //Newsletter:
-  newsletterModels(sequelize)
+  newsletterModels(sequelize);
+  //Compras
+  compraCartModels(sequelize);
+  compraProductModels(sequelize);
+  compraOrdenCompraModels(sequelize);
 
-  //Relaciono los modelos:
-  const {
-    Newsletter,
-    CategoriProduct,
-    ColorProduct,
-    MarcaProduct,
-    Product,
-    TalleProduct,
-    Promotions,
-    ReviewsPuntuacion,
-    CategoriUser,
-    DataUser,
-    LoginUser,
-    UserState,
-  } = sequelize.models
-  
-  //userdata 1 --- 1 loginUser
-  LoginUser.belongsTo(DataUser);
-  DataUser.belongsTo(LoginUser);
+//Relaciono los modelos:
+const {
+  Newsletter,
+  CategoriProduct,
+  ColorProduct,
+  MarcaProduct,
+  Product,
+  TalleProduct,
+  Promotions,
+  ReviewsPuntuacion,
+  CategoriUser,
+  DataUser,
+  LoginUser,
+  UserState,
+  Cart,
+  CompraProducto,
+  OrdenCompra
+} = sequelize.models;
 
-  //CategoriUser --- N LoginUser
-  CategoriUser.hasMany(LoginUser);
-  LoginUser.belongsTo(CategoriUser);
+//userdata 1 --- 1 loginUser
+LoginUser.belongsTo(DataUser);
+DataUser.belongsTo(LoginUser);
 
-  //UserState --- N LoginUser
-  UserState.hasMany(LoginUser);
-  LoginUser.belongsTo(UserState);
+//CategoriUser --- N LoginUser
+CategoriUser.hasMany(LoginUser);
+LoginUser.belongsTo(CategoriUser);
 
-  //loginUser n --- n product
-  LoginUser.belongsToMany(Product, { through: 'UserYProduct' });
-  Product.belongsToMany(LoginUser, { through: 'UserYProduct' });
+//UserState --- N LoginUser
+UserState.hasMany(LoginUser);
+LoginUser.belongsTo(UserState);
 
-  //CategoriProduct --- N Product
-  CategoriProduct.hasMany(Product);
-  Product.belongsTo(CategoriProduct);
+//loginUser n --- n product
+LoginUser.belongsToMany(Product, { through: "Favourite" });
+Product.belongsToMany(LoginUser, { through: "Favourite" });
 
-  //MarcaProduct --- N Product
-  MarcaProduct.hasMany(Product);
-  Product.belongsTo(MarcaProduct);
+//CategoriProduct N--- N Product
+CategoriProduct.belongsToMany(Product, { through: "Product_CategoriProduct" });
+Product.belongsToMany(CategoriProduct, { through: "Product_CategoriProduct" });
 
-  //ColorProduct n --- n product
-  ColorProduct.belongsToMany(Product, { through: 'ColoYProduct' });
-  Product.belongsToMany(ColorProduct, { through: 'ColorYProduct' });
+//MarcaProduct --- N Product
+MarcaProduct.hasMany(Product);
+Product.belongsTo(MarcaProduct);
 
-  //tallesProduct n --- n product
-  TalleProduct.belongsToMany(Product, { through: 'TallesYProducto' });
-  Product.belongsToMany(TalleProduct, { through: 'TallesYProducto' });
+//ColorProduct n --- n product
+ColorProduct.belongsToMany(Product, { through: "ColorYProduct" });
+Product.belongsToMany(ColorProduct, { through: "ColorYProduct" });
 
-  
+//tallesProduct n --- n product
+TalleProduct.belongsToMany(Product, { through: "TallesYProducto" });
+Product.belongsToMany(TalleProduct, { through: "TallesYProducto" });
 
+//Product --- N ReviewsPuntuacion
+Product.hasMany(ReviewsPuntuacion);
+ReviewsPuntuacion.belongsTo(Product);
 
-  module.exports = { sequelize, ...sequelize.models };
+//cart 1 --- n compraProducto
+Cart.hasMany(CompraProducto);
+CompraProducto.belongsTo(Cart);
+
+//cart 1 --- 1 loginUser
+LoginUser.belongsTo(Cart);
+Cart.belongsTo(LoginUser);
+
+//ordenCompra 1 --- 1 cart
+Cart.belongsTo(OrdenCompra);
+OrdenCompra.belongsTo(Cart);
+
+//ordenCompra N --- 1 loginUser
+LoginUser.hasMany(OrdenCompra);
+OrdenCompra.belongsTo(LoginUser);
+
+//cart 1 --- n compraProducto
+Cart.hasMany(CompraProducto);
+CompraProducto.belongsTo(Cart);
+
+//Product 1 --- n compraProducto
+Product.hasMany(CompraProducto);
+CompraProducto.belongsTo(Product);
+
+module.exports = { sequelize, ...sequelize.models };

@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
     },
     punctuation: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('1','2','3','4','5'),
     },
     review: {
       type: DataTypes.STRING,
