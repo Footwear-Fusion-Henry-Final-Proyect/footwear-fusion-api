@@ -1,41 +1,138 @@
-require('dotenv').config();
-const { Sequelize } = require('sequelize');
-const fs = require('fs');
-const path = require('path');
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
-} = process.env;
+  userDataModels,
+  userCategoriModels,
+  userLoginModels,
+  userStateModels,
+} = require("./models/Usuarios/index");
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/food`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-});
-const basename = path.basename(__filename);
+const {
+  producModels,
+  productCategoriModels,
+  productColorModels,
+  productMarcaModels,
+  productTallesModels,
+} = require("./models/Productos/index");
 
-const modelDefiners = [];
+const {
+    compraCartModels,
+    compraProductModels,
+    compraOrdenCompraModels,
+} = require("./models/Compra/index");
 
-// Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
-fs.readdirSync(path.join(__dirname, '/models'))
-  .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
-  .forEach((file) => {
-    modelDefiners.push(require(path.join(__dirname, '/models', file)));
-  });
+const { reviewsPunctuation } = require("./models/ReviewsPuntajes/index");
 
-// Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach(model => model(sequelize));
-// Capitalizamos los nombres de los modelos ie: product => Product
-let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
-sequelize.models = Object.fromEntries(capsEntries);
+const { promocionesModels } = require("./models/Promociones");
+const { newsletterModels } = require("./models/Newsletter");
 
-// En sequelize.models están todos los modelos importados como propiedades
-// Para relacionarlos hacemos un destructuring
-const { Recipe } = sequelize.models;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME_BD } = process.env;
 
-// Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+const sequelize = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME_BD}`,
+  { logging: false }
+);
 
-module.exports = {
-  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
-};
+//Ejecuto los modelos:
+//User:
+  userDataModels(sequelize);
+  userCategoriModels(sequelize);
+  userLoginModels(sequelize);
+  userStateModels(sequelize);
+  //Product:
+  producModels(sequelize);
+  productCategoriModels(sequelize);
+  productColorModels(sequelize);
+  productMarcaModels(sequelize);
+  productTallesModels(sequelize);
+  //Reviews
+  reviewsPunctuation(sequelize);
+  //promociones:
+  promocionesModels(sequelize);
+  //Newsletter:
+  newsletterModels(sequelize);
+  //Compras
+  compraCartModels(sequelize);
+  compraProductModels(sequelize);
+  compraOrdenCompraModels(sequelize);
+
+//Relaciono los modelos:
+const {
+  Newsletter,
+  CategoriProduct,
+  ColorProduct,
+  MarcaProduct,
+  Product,
+  TalleProduct,
+  Promotions,
+  ReviewsPuntuacion,
+  CategoriUser,
+  DataUser,
+  LoginUser,
+  UserState,
+  Cart,
+  CompraProducto,
+  OrdenCompra
+} = sequelize.models;
+
+//userdata 1 --- 1 loginUser
+LoginUser.belongsTo(DataUser);
+DataUser.belongsTo(LoginUser);
+
+//CategoriUser --- N LoginUser
+CategoriUser.hasMany(LoginUser);
+LoginUser.belongsTo(CategoriUser);
+
+//UserState --- N LoginUser
+UserState.hasMany(LoginUser);
+LoginUser.belongsTo(UserState);
+
+//loginUser n --- n product
+LoginUser.belongsToMany(Product, { through: "Favourite" });
+Product.belongsToMany(LoginUser, { through: "Favourite" });
+
+//CategoriProduct N--- N Product
+CategoriProduct.belongsToMany(Product, { through: "Product_CategoriProduct" });
+Product.belongsToMany(CategoriProduct, { through: "Product_CategoriProduct" });
+
+//MarcaProduct --- N Product
+MarcaProduct.hasMany(Product);
+Product.belongsTo(MarcaProduct);
+
+//ColorProduct n --- n product
+ColorProduct.belongsToMany(Product, { through: "ColorYProduct" });
+Product.belongsToMany(ColorProduct, { through: "ColorYProduct" });
+
+//tallesProduct n --- n product
+TalleProduct.belongsToMany(Product, { through: "TallesYProducto" });
+Product.belongsToMany(TalleProduct, { through: "TallesYProducto" });
+
+//Product --- N ReviewsPuntuacion
+Product.hasMany(ReviewsPuntuacion);
+ReviewsPuntuacion.belongsTo(Product);
+
+//cart 1 --- n compraProducto
+Cart.hasMany(CompraProducto);
+CompraProducto.belongsTo(Cart);
+
+//cart 1 --- 1 loginUser
+LoginUser.belongsTo(Cart);
+Cart.belongsTo(LoginUser);
+
+//ordenCompra 1 --- 1 cart
+Cart.belongsTo(OrdenCompra);
+OrdenCompra.belongsTo(Cart);
+
+//ordenCompra N --- 1 loginUser
+LoginUser.hasMany(OrdenCompra);
+OrdenCompra.belongsTo(LoginUser);
+
+//cart 1 --- n compraProducto
+Cart.hasMany(CompraProducto);
+CompraProducto.belongsTo(Cart);
+
+//Product 1 --- n compraProducto
+Product.hasMany(CompraProducto);
+CompraProducto.belongsTo(Product);
+
+module.exports = { sequelize, ...sequelize.models };
