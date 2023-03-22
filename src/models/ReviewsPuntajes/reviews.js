@@ -13,5 +13,5 @@ module.exports = (sequelize) => {
     review: {
       type: DataTypes.STRING,
     },
-  });
+  },{ timestamps: false });
 };

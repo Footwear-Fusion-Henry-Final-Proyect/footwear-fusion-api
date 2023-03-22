@@ -34,5 +34,5 @@ module.exports = (sequelize) => {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
         },
-    });
+    },{ timestamps: false });
 };

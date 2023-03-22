@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-  });
+  }, { timestamps: false });
 
   // Método para cifrar la contraseña
   LoginUser.beforeCreate(async (user) => {
