@@ -83,6 +83,24 @@ const serchProduct = async (name) => {
     if(filterProduct.length) return filterProduct 
     throw new Error(`${name} no fue encontrado`);
   };
+
+const ordenProduct = (product) => {
+        product.sort(function(a, b) {
+        var titleA = a.dataValues.title.toUpperCase(); // convertir a mayúsculas para evitar problemas con mayúsculas/minúsculas
+        var titleB = b.dataValues.title.toUpperCase();
+      
+        if (titleA < titleB) {
+          return -1;
+        }
+        if (titleA > titleB) {
+          return 1;
+        }
+      
+        // si los títulos son iguales, no es necesario cambiar el orden
+        return 0;
+      });
+      return product
+}
 module.exports = {
     createProduct,
     createMarcaProduct,
@@ -90,5 +108,6 @@ module.exports = {
     createColorProduct,
     createCategoryProduct,
     getProduct,
-    serchProduct
+    serchProduct,
+    ordenProduct
 }

@@ -1,4 +1,4 @@
-const {createProduct, createMarcaProduct, createTalleProduct, createColorProduct, createCategoryProduct, getProduct, serchProduct} = require("../controllers/productControllers")
+const {createProduct, createMarcaProduct, createTalleProduct, createColorProduct, createCategoryProduct, getProduct, serchProduct, ordenProduct} = require("../controllers/productControllers")
 const { MarcaProduct, TalleProduct, ColorProduct, CategoriProduct } = require("../db")
 
 const createProductHandler = async (req, res) => {
@@ -98,7 +98,8 @@ const getProductHandler = async (req, res) => {
     try {
         const { name } = req.query;
         const product = name ? await serchProduct(name) : await getProduct();
-        res.status(201).json(product)
+        const result = ordenProduct(product)
+        res.status(201).json(result)
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
