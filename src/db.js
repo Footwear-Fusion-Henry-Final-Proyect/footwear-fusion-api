@@ -96,8 +96,8 @@ CategoriProduct.belongsToMany(Product, { through: "Product_CategoriProduct" });
 Product.belongsToMany(CategoriProduct, { through: "Product_CategoriProduct" });
 
 //MarcaProduct --- N Product
-MarcaProduct.hasMany(Product);
-Product.belongsTo(MarcaProduct);
+MarcaProduct.belongsToMany(Product, { through: "Product_MarcaProduct" });
+Product.belongsToMany(MarcaProduct, { through: "Product_MarcaProduct" });
 
 //ColorProduct n --- n product
 ColorProduct.belongsToMany(Product, { through: "ColorYProduct" });

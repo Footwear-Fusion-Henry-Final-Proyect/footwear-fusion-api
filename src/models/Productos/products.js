@@ -7,28 +7,32 @@ module.exports = (sequelize) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    code: {
+    title:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    code:{
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    price: {
+    price:{
       type: DataTypes.STRING,
       allowNull: false,
     },
-    image: {
+    image:{
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    description:{
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    stock: {
+    stock:{
       type: DataTypes.STRING,
       allowNull: false,
     },
-    productState: { //codigo numerico que indica el estado de un producto(0 = faltante, 1=stonck disponible, 2=pedido a proveedor, ect..)
+    productState:{ //codigo numerico que indica el estado de un producto(0 = faltante, 1=stonck disponible, 2=pedido a proveedor, ect..)
       type: DataTypes.STRING,
       allowNull: false,
     },
