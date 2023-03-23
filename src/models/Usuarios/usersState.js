@@ -7,10 +7,11 @@ module.exports = (sequelize) => {
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    category: {
-      type: DataTypes.STRING,
+    state: {
+      type: DataTypes.ENUM,
+      values: ["New", "Active", "Inactive", "Banned", "Locked"],
+      defaultValue: "New",
       allowNull: false,
-      unique: true,
     },
   }, { timestamps: false });
 };
