@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
     category: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      defaultValue: 'Customer',
     },
   },{ timestamps: false });
 };
