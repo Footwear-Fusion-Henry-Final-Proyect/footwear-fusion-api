@@ -70,6 +70,7 @@ const createProductHandler = async (req, res) => {
     let addColor;
     let addCategory;
 
+
     if (newMarca) {
       newProduct.addMarcaProduct(newMarca);
     }
@@ -119,7 +120,19 @@ const getProductHandler = async (req, res) => {
   }
 };
 
+const getProductIdHandler = async (req, res) => {
+    try {
+        const {pruductId} = req.params;
+        const product = await getProductId(pruductId);
+        res.status(201).json(product)
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+}
+
 module.exports = {
-  createProductHandler,
-  getProductHandler,
-};
+    createProductHandler,
+    getProductHandler,
+    getProductIdHandler
+}
+
