@@ -1,124 +1,109 @@
-const {
-  createProduct,
-  createMarcaProduct,
-  createTalleProduct,
-  createColorProduct,
-  createCategoryProduct,
-  getProduct,
-  serchProduct,
-  ordenProduct,
-} = require("../controllers/productControllers");
-const {
-  MarcaProduct,
-  TalleProduct,
-  ColorProduct,
-  CategoriProduct,
-} = require("../db");
+const {createProduct, createMarcaProduct, createTalleProduct, createColorProduct, createCategoryProduct, getProduct, serchProduct, ordenProduct, getProductId} = require("../controllers/productControllers")
+const { MarcaProduct, TalleProduct, ColorProduct, CategoriProduct } = require("../db")
 
 const createProductHandler = async (req, res) => {
-  try {
+    try {
     const {
-      title,
-      code,
-      price,
-      image,
-      description,
-      stock,
-      productState,
-      marca,
-      talle,
-      color,
-      category,
+        title,
+        code,
+        price,
+        image,
+        description,
+        stock,
+        productState,
+        marca,
+        talle,
+        color,
+        category
     } = req.body;
 
     const newProduct = await createProduct(
-      title,
-      code,
-      price,
-      image,
-      description,
-      stock,
-      productState
-    );
+        title,
+        code,
+        price,
+        image,
+        description,
+        stock,
+        productState
+    )
 
     const newMarca = await MarcaProduct.findOne({
-      where: {
-        name: marca,
-      },
-    });
-
+        where: {
+          name: marca,
+        },
+    })
+    
     const newTalle = await TalleProduct.findOne({
-      where: {
-        talle: talle,
-      },
-    });
+        where: {
+          talle: talle,
+        },
+    })
 
     const newCalor = await ColorProduct.findOne({
-      where: {
-        color: color,
-      },
-    });
+        where: {
+          color: color,
+        },
+    })
 
     const newCategory = await CategoriProduct.findOne({
-      where: {
-        category: category,
-      },
-    });
+        where: {
+            category: category,
+        },
+    })
 
     let addMarca;
     let addTalle;
     let addColor;
     let addCategory;
 
-
-    if (newMarca) {
-      newProduct.addMarcaProduct(newMarca);
-    }
-    if (!newMarca) {
-      addMarca = await createMarcaProduct(marca);
-      newProduct.addMarcaProduct(addMarca);
-    }
-
-    if (newTalle) {
-      newProduct.addTalleProduct(newTalle);
-    }
-    if (!newTalle) {
-      addTalle = await createTalleProduct(talle);
-      newProduct.addTalleProduct(addTalle);
+    if(newMarca){
+        await newProduct.addMarcaProduct(newMarca)
+    }  
+    if(!newMarca) {
+        addMarca = await createMarcaProduct(marca);
+        await newProduct.addMarcaProduct(addMarca);
     }
 
-    if (newCalor) {
-      newProduct.addColorProducts(newCalor);
-    }
-    if (!newCalor) {
-      addColor = await createColorProduct(color);
-      newProduct.addColorProducts(addColor);
+    if(newTalle){
+        newProduct.addTalleProduct(newTalle)
+    }  
+    if(!newTalle) {
+        addTalle = await createTalleProduct(talle);
+        newProduct.addTalleProduct(addTalle);
     }
 
-    if (newCategory) {
-      newProduct.addCategoriProduct(newCategory);
+    if(newCalor){
+        newProduct.addColorProducts(newCalor)
+    }  
+    if(!newCalor) {
+        addColor = await createColorProduct(color);
+        newProduct.addColorProducts(addColor);
     }
-    if (!newCategory) {
-      addCategory = await createCategoryProduct(category);
-      newProduct.addCategoriProduct(addCategory);
+
+    if(newCategory){
+        newProduct.addCategoriProduct(newCategory)
+    }  
+    if(!newCategory) {
+        addCategory = await createCategoryProduct(category);
+        newProduct.addCategoriProduct(addCategory);
     }
 
     res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(404).json({ error: "no se pudo cargar el producto"});
-  }
-};
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+}
 
 const getProductHandler = async (req, res) => {
-  try {
-    const { name } = req.query;
-    const product = name ? await serchProduct(name) : await getProduct();
-    const result = ordenProduct(product);
-    res.status(201).json(result);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-};
+    try {
+        const { name } = req.query;
+        const product = name ? await serchProduct(name) : await getProduct();
+        const result = ordenProduct(product)
+        res.status(201).json(result)
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+}
 
 const getProductIdHandler = async (req, res) => {
     try {
@@ -135,4 +120,3 @@ module.exports = {
     getProductHandler,
     getProductIdHandler
 }
-

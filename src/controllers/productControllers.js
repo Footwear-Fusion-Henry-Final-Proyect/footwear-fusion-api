@@ -3,7 +3,8 @@ const {
     ColorProduct, 
     MarcaProduct, 
     TalleProduct, 
-    Product
+    Product,
+    ReviewsPuntuacion
 } = require("../db")
 
 const createProduct = async (title,code,price,image,description,stock,productState) => {
@@ -66,6 +67,10 @@ const getProduct = async () => {
                 model: TalleProduct,
                 attributes: ['talle'],
                 through: { attributes: [] },
+            },
+            {
+                model: ReviewsPuntuacion,
+                attributes: ['punctuation',"review"],
             }
         ]
     })
@@ -101,6 +106,14 @@ const ordenProduct = (product) => {
       });
       return product
 }
+
+const getProductId = async (pruductId) => {
+    const product = await getProduct();
+    const productId = product.find(product => product.id === pruductId);
+    if(productId) return productId;
+    throw new Error(`${pruductId} no encontrado`);
+}
+
 module.exports = {
     createProduct,
     createMarcaProduct,
@@ -109,5 +122,6 @@ module.exports = {
     createCategoryProduct,
     getProduct,
     serchProduct,
-    ordenProduct
+    ordenProduct,
+    getProductId
 }
