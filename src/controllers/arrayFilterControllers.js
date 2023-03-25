@@ -1,4 +1,4 @@
-const { ColorProduct, TalleProduct } = require("../db");
+const { ColorProduct, TalleProduct, MarcaProduct, CategoriProduct } = require("../db");
 
 const getcolor = async () => {
     const colorBase = await ColorProduct.findAll({
@@ -14,7 +14,7 @@ const quitarEspaciosColor = [];
 const coloresRegistrados = {};
 
 colorArr.forEach((tem) => {
-  const color = tem.trim();
+  const color = tem.trim().toUpperCase();
   if (color !== '' && !coloresRegistrados[color]) {
     quitarEspaciosColor.push(color);
     coloresRegistrados[color] = true;
@@ -48,7 +48,57 @@ if (talle !== '' && !tallesRegistrados[talle]) {
 return quitarEspaciosTalle.sort();
 }
 
+const getMarcas = async () => {
+  const marcasBase = await MarcaProduct.findAll({
+      attributes: ['name']
+  });
+  const arrMarcas = marcasBase.map((dato) => {
+      return dato.name
+    });
+  const marcaArr = arrMarcas.join(",").split(",");
+
+//este para poder sacarle los espacios en blanco a cada string
+const quitarEspaciosMarcas = [];
+const marcasRegistrados = {};
+
+marcaArr.forEach((tem) => {
+const marca = tem.trim().toUpperCase();
+if (marca !== '' && !marcasRegistrados[marca]) {
+  quitarEspaciosMarcas.push(marca);
+  marcasRegistrados[marca] = true;
+}
+});
+
+return quitarEspaciosMarcas.sort();
+}
+
+const getCategori = async () => {
+  const categoryBase = await CategoriProduct.findAll({
+      attributes: ['category']
+  });
+  const arrCategory = categoryBase.map((dato) => {
+      return dato.category
+    });
+  const categoryArr = arrCategory.join(",").split(",");
+
+//este para poder sacarle los espacios en blanco a cada string
+const quitarEspaciosCategory = [];
+const categoryRegistrados = {};
+
+categoryArr.forEach((tem) => {
+const category = tem.trim().toUpperCase();
+if (category !== '' && !categoryRegistrados[category]) {
+  quitarEspaciosCategory.push(category);
+  categoryRegistrados[category] = true;
+}
+});
+
+return quitarEspaciosCategory.sort();
+}
+
 module.exports = {
     getcolor,
-    getTalles
+    getTalles,
+    getMarcas,
+    getCategori
 }
