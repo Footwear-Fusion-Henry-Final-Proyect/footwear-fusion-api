@@ -1,8 +1,8 @@
 
 const validateProduct = (req, res, next) => {
-  const { categoria, color, marca, talle } = req.body;
+  const { category, color, marca, talle } = req.body;
 
-  if (!categoria || !color || !marca || !talle) {
+  if (!category || !color || !marca || !talle) {
     return res.status(400).json({ msg: "mandatory fields missing" }); //'faltan campos obligatorios'
   }
   next();
