@@ -1,7 +1,3 @@
-const express = require("express");
-const router = express.Router();
-const productControllers = require("../controllers/productControllers");
-//const productHandlers = require('../handlers/productHandlers');
 
 const validateProduct = (req, res, next) => {
   const { categoria, color, marca, talle } = req.body;
@@ -12,9 +8,6 @@ const validateProduct = (req, res, next) => {
   next();
 };
 
-//agrego el middleware de validacion al crear un producto:
-
-router.post("/products", validateProduct, productControllers.createProduct);
 
 //validacion de datos para la actualizacion de un producto:
 
@@ -26,13 +19,6 @@ const validateUpdateProduct = (req, res, next) => {
   }
   next();
 };
-//middleware de validación al actualizar un producto:
-
-router.put(
-  "/products/:id",
-  validateUpdateProduct,
-  productControllers.updateProduct
-);
 
 //middleware de validacion de datos para la eliminacion de un producto:
 
@@ -44,12 +30,6 @@ const validateDeleteProduct = (req, res, next) => {
   }
   next();
 };
-
-router.delete(
-  "/products/:id",
-  validateDeleteProduct,
-  productControllers.deleteProduct
-);
 
 //middleware de validacion de datos para la busqueda de productos:
 
@@ -66,10 +46,10 @@ const validateSearchProducts = (req, res, next) => {
   next();
 };
 
-router.get(
-  "/products",
-  validateSearchProducts,
-  productControllers.searchProducts
-);
 
-module.exports = router;
+module.exports = {
+  validateProduct,
+  validateUpdateProduct,
+  validateDeleteProduct,
+  validateSearchProducts
+}
