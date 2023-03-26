@@ -184,7 +184,43 @@ const updateProduct = async (pruductId, productData) => {
   
     return product;
   };
-  
+
+const getProductPunctuation = async () => {
+  const productos = await Product.findAll({
+    include: [
+      {
+        model: ReviewsPuntuacion,
+        attributes: ['punctuation', "review"]
+      }
+    ]
+  });
+
+  // Itera sobre cada producto para calcular la puntuación promedio
+  for (const producto of productos) {
+    let puntuacionTotal = 0;
+    let cantidadPuntuaciones = 0;
+
+    for (const review of producto.ReviewsPuntuacions) {
+      const puntuacion = parseInt(review.punctuation);
+      if (!isNaN(puntuacion)) {
+        puntuacionTotal += puntuacion;
+        cantidadPuntuaciones ++
+      }
+    }
+    const max = 5
+    let puntos;
+
+    const puntuacionPromedio = cantidadPuntuaciones > 0 ? puntuacionTotal  : 0;
+    puntuacionPromedio > 5 ? puntos = max : puntos = puntuacionPromedio
+    producto.setDataValue('promedio', parseFloat(puntos.toFixed(1)));
+  }
+
+  // Ordena los productos por puntuación promedio de mayor a menor
+  productos.sort((a, b) => b.promedio - a.promedio);
+
+  // Devuelve los 5 primeros productos con la puntuación promedio más alta
+  return productos.slice(0, 5);
+}
 
 module.exports = {
     createProduct,
@@ -196,5 +232,6 @@ module.exports = {
     serchProduct,
     ordenProduct,
     getProductId,
-    updateProduct
+    updateProduct,
+    getProductPunctuation
 }
