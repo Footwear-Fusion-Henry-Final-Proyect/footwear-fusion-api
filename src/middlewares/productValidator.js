@@ -4,9 +4,9 @@ const productControllers = require("../controllers/productControllers");
 //const productHandlers = require('../handlers/productHandlers');
 
 const validateProduct = (req, res, next) => {
-  const { categoria, color, marca, talle } = req.body;
+  const { category, color, marca, talle } = req.body;
 
-  if (!categoria || !color || !marca || !talle) {
+  if (!category || !color || !marca || !talle) {
     return res.status(400).json({ msg: "mandatory fields missing" }); //'faltan campos obligatorios'
   }
   next();
@@ -19,9 +19,9 @@ router.post("/products", validateProduct, productControllers.createProduct);
 //validacion de datos para la actualizacion de un producto:
 
 const validateUpdateProduct = (req, res, next) => {
-  const { categoria, color, marca, talle } = req.body;
+  const { category, color, marca, talle } = req.body;
 
-  if (categoria === "" || color === "" || marca === "" || talle === "") {
+  if (category === "" || color === "" || marca === "" || talle === "") {
     return res.status(400).json({ msg: "empty fields cannot be updated" }); //'No se pueden actualizar campos vacios'
   }
   next();
@@ -29,7 +29,7 @@ const validateUpdateProduct = (req, res, next) => {
 //middleware de validación al actualizar un producto:
 
 router.put(
-  "/products/:id",
+  "/product/:id",
   validateUpdateProduct,
   productControllers.updateProduct
 );
@@ -46,18 +46,19 @@ const validateDeleteProduct = (req, res, next) => {
 };
 
 router.delete(
-  "/products/:id",
+  "/product/:id",
   validateDeleteProduct,
-  productControllers.deleteProduct
+  productControllers.getProduct
+  //productControllers.deleteProduct
 );
 
 //middleware de validacion de datos para la busqueda de productos:
 
 const validateSearchProducts = (req, res, next) => {
   // valido que se haya enviado al menos un parametro de busqueda
-  const { categoria, color, marca, talle } = req.query;
+  const { category, color, marca, talle } = req.query;
 
-  if (!categoria && !color && !marca && !talle) {
+  if (!category && !color && !marca && !talle) {
     return res
       .status(400)
       .json({ msg: "must send at least one search parameter" }); //'debe enviar al menos un parametro de busqueda'
@@ -67,9 +68,9 @@ const validateSearchProducts = (req, res, next) => {
 };
 
 router.get(
-  "/products",
+  "/product",
   validateSearchProducts,
-  productControllers.searchProducts
+  productControllers.serchProduct
 );
 
 module.exports = router;
