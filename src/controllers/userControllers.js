@@ -28,7 +28,7 @@ const getAllUsers = async () => {
         attributes: ['id', 'name', 'last_name', 'phone', 'address'],
         include: [{
             model: LoginUser,
-            attributes: ['email', 'userName'],
+            attributes: ['email', 'userName',"id"],
             // through: {
             //     attributes: []},
             // },

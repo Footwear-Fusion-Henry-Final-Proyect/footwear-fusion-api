@@ -222,6 +222,8 @@ const getProductPunctuation = async () => {
   return productos.slice(0, 5);
 }
 
+
+
 module.exports = {
     createProduct,
     createMarcaProduct,
