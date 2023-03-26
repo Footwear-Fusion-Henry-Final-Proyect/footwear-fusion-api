@@ -114,6 +114,78 @@ const getProductId = async (pruductId) => {
     throw new Error(`${pruductId} no encontrado`);
 }
 
+const updateProduct = async (pruductId, productData) => {
+    const {
+      title,
+      code,
+      price,
+      image,
+      description,
+      stock,
+      productState,
+      marca,
+      talle,
+      color,
+      category,
+    } = productData;
+  
+    const product = await Product.findByPk(pruductId);
+    if (!product) throw new Error("Product not found");
+  
+    await product.update({
+      title,
+      code,
+      price,
+      image,
+      description,
+      stock,
+      productState,
+    });
+    
+    if (marca) {
+      const marcaInstance = await MarcaProduct.findOne({ where: { name: marca } });
+      if (marcaInstance) {
+        await product.setMarcaProducts([marcaInstance.id]);
+      } else {
+        const newMarca = await MarcaProduct.create({ name: marca });
+        await product.setMarcaProducts([newMarca.id]);
+      }
+    }
+  
+    if (talle) {
+      const talleInstance = await TalleProduct.findOne({ where: { talle } });
+      if (talleInstance) {
+        await product.setTalleProducts([talleInstance.id]);
+      } else {
+        const newTalle = await TalleProduct.create({ talle });
+        await product.setTalleProducts([newTalle.id]);
+      }
+    }
+  
+    if (color) {
+      const colorInstance = await ColorProduct.findOne({ where: { color } });
+      if (colorInstance) {
+        await product.setColorProducts([colorInstance.id]);
+      } else {
+        const newColor = await ColorProduct.create({ color });
+        await product.setColorProducts([newColor.id]);
+      }
+    }
+  
+    if (category) {
+      const categoryInstance = await CategoriProduct.findOne({ where: { category } });
+      if (categoryInstance) {
+        await product.setCategoriProducts([categoryInstance.id]);
+      } else {
+        const newCategory = await CategoriProduct.create({ category });
+        await product.setCategoriProducts([newCategory.id]);
+      }
+    }
+  
+    return product;
+  };
+  
+
 module.exports = {
     createProduct,
     createMarcaProduct,
@@ -123,5 +195,6 @@ module.exports = {
     getProduct,
     serchProduct,
     ordenProduct,
-    getProductId
+    getProductId,
+    updateProduct
 }
