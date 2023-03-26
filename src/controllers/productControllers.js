@@ -7,6 +7,7 @@ const {
 } = require("../db")
 
 const createProduct = async (title,code,price,image,description,stock,productState) => {
+    //console.log(req.body);
     const newProduct = await Product.create({
         title,
         code,

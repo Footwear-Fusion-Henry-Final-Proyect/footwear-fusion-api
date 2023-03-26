@@ -25,6 +25,7 @@ const { reviewsPunctuation } = require("./models/ReviewsPuntajes/index");
 
 const { promocionesModels } = require("./models/Promociones");
 const { newsletterModels } = require("./models/Newsletter");
+const { LoginUsers } = require("./models/Usuarios/loginUser");
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME_BD } = process.env;
 
