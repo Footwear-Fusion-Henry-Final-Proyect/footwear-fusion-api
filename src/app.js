@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors")
 
 const routes = require('./routes/index');
+const productRouter = require("./routes/productRouters");
 
 
 const app = express();
@@ -12,6 +13,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use('/', routes);
+app.use ('/products', productRouter)
+
 
 // Error catching endware.
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

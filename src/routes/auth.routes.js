@@ -1,13 +1,13 @@
 
 import { Router } from "express";
-import { singIn, singUp } from "../Controllers/auth.controllers";
+const router = Router();
+import * as authCtrl from "../controllers/auth.controllers";
 import { verifiRolesExiste, verifiUserExiste } from "../Middlewares/verifSingUp";
 
 
-const router = Router();
 
-router.post("/signUp",[verifiUserExiste, verifiRolesExiste],singUp)
+router.post("/signUp",[verifiUserExiste, verifiRolesExiste],authCtrl.singUp)
 
-router.post("/signIn", singIn)
+router.post("/signIn", authCtrl.singIn)
 
 export default router;
