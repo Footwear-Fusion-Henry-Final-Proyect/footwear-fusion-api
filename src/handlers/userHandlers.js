@@ -8,7 +8,9 @@ const postUserHandler = (async (req, res) => {
         address,
         userName,
         email,
-        password
+        password,
+        state,
+        category
     } = req.body;
     try {
         let newUser = await userCreate(
@@ -18,30 +20,24 @@ const postUserHandler = (async (req, res) => {
             address,
             userName,
             email,
-            password);
+            password,
+            state,
+            category);
         res.status(201).send(`El usuario ${name} ${last_name} fue creado con éxito`);
     } catch (e) {
         res.status(404).send(e.message)
     }
 });
 
-const getUsersHandler = (async (req, res) => {
-    const user = req.query.search;
+const getUsersHandler = async (req, res) => {
     try {
-        if (user) {
-            let infoUser = await getInfoUser(user);
-            infoUser ? res.status(200).send(infoUser) :
-                res.status(404).send(`No se encuentra el Usuario ${user}`);
-        }
-        else {
-            let allUsers = await getAllUsers();
-            allUsers ? res.status(200).send(allUsers) :
-                res.status(404).send('Loading...');
-        }
+        const {name} = req.query;
+        const user = name ? await getInfoUser(name) : await getAllUsers()
+        res.status(201).json(user)
     } catch (e) {
         res.status(404).send(e.message);
     }
-});
+};
 
 module.exports = {
     postUserHandler,
