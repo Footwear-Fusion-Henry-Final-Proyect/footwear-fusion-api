@@ -111,10 +111,6 @@ Product.belongsToMany(TalleProduct, { through: "TallesYProducto" });
 Product.hasMany(ReviewsPuntuacion);
 ReviewsPuntuacion.belongsTo(Product);
 
-//cart 1 --- n compraProducto
-Cart.hasMany(CompraProducto);
-CompraProducto.belongsTo(Cart);
-
 //cart 1 --- 1 loginUser
 LoginUser.belongsTo(Cart);
 Cart.belongsTo(LoginUser);
@@ -123,16 +119,28 @@ Cart.belongsTo(LoginUser);
 Cart.belongsTo(OrdenCompra);
 OrdenCompra.belongsTo(Cart);
 
+//Cart 1 --- 1 Promotions
+Promotions.belongsTo(Cart);
+Cart.belongsTo(Promotions);
+
 //ordenCompra N --- 1 loginUser
 LoginUser.hasMany(OrdenCompra);
 OrdenCompra.belongsTo(LoginUser);
 
 //cart 1 --- n compraProducto
 Cart.hasMany(CompraProducto);
-CompraProducto.belongsTo(Cart);
+CompraProducto.hasMany(Cart);
 
 //Product 1 --- n compraProducto
 Product.hasMany(CompraProducto);
 CompraProducto.belongsTo(Product);
+
+//TalleProduct n --- n compraProducto
+TalleProduct.hasMany(CompraProducto);
+CompraProducto.hasMany(TalleProduct);
+
+//ColorProduct n --- n compraProducto
+ColorProduct.hasMany(CompraProducto);
+CompraProducto.hasMany(ColorProduct);
 
 module.exports = { sequelize, ...sequelize.models };
