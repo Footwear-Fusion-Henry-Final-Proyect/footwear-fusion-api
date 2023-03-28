@@ -3,8 +3,8 @@ const { createCartHandler, getCartIdHandler, updateCartIdHandler } = require("..
 
 const cartRouters = Router();
 
-cartRouters.post("/", createCartHandler)
-cartRouters.get("/:cartId", getCartIdHandler)
+cartRouters.post("/:loginUserId/:productId", createCartHandler)
+cartRouters.get("/:loginUserId", getCartIdHandler)
 cartRouters.put("/:cartId", updateCartIdHandler)
 
 module.exports = cartRouters;

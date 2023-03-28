@@ -3,8 +3,8 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions } 
 
 const createCompraProductoHandler = async (req, res) => {
     try {
-        const productId = req.params.productId;
-        const { talle, color, quantity } = req.body;
+        const loginUserId = req.params.loginUserId;
+        const { productId, talle, color, quantity } = req.body;
         const newCompraProducto = await createCompraProducto(productId, talle, color, quantity)
         res.status(201).json(newCompraProducto)
     } catch (error) {

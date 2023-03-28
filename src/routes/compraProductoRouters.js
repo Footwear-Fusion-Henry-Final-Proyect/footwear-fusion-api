@@ -3,9 +3,9 @@ const { createCompraProductoHandler, updateCompraProductoHandler, deleteCompraPr
 
 const compraProductoRouters = Router();
 
-compraProductoRouters.post("/", createCompraProductoHandler)
+// compraProductoRouters.post("/", createCompraProductoHandler)
 // compraProductoRouters.get("/:cartId", getCartIdHandler)
-compraProductoRouters.put("/:cartId", updateCompraProductoHandler)
-compraProductoRouters.delete("/:cartId", deleteCompraProductoHandler)
+compraProductoRouters.put("/:compraProductoId", updateCompraProductoHandler)
+compraProductoRouters.delete("/:compraProductoId", deleteCompraProductoHandler)
 
 module.exports = compraProductoRouters;

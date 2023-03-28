@@ -129,18 +129,18 @@ OrdenCompra.belongsTo(LoginUser);
 
 //cart 1 --- n compraProducto
 Cart.hasMany(CompraProducto);
-CompraProducto.hasMany(Cart);
+CompraProducto.hasOne(Cart);
 
 //Product 1 --- n compraProducto
 Product.hasMany(CompraProducto);
 CompraProducto.belongsTo(Product);
 
-//TalleProduct n --- n compraProducto
+//TalleProduct 1 --- n compraProducto
 TalleProduct.hasMany(CompraProducto);
-CompraProducto.hasMany(TalleProduct);
+CompraProducto.belongsTo(TalleProduct);
 
-//ColorProduct n --- n compraProducto
+//ColorProduct 1 --- n compraProducto
 ColorProduct.hasMany(CompraProducto);
-CompraProducto.hasMany(ColorProduct);
+CompraProducto.belongsTo(ColorProduct);
 
 module.exports = { sequelize, ...sequelize.models };

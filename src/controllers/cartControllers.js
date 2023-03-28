@@ -1,56 +1,54 @@
-const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions } = require("../db")
+const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser } = require("../db")
+const { createCompraProducto } = require("./compraProductoControllers")
 
-const createNewCart = async (userId, compraProductoId, promotionsId) => {
-    let user = await LoginUser.findByPk(userId);
-    let compraProducto = await CompraProducto.findByPk(compraProductoId);
-    let promotion = await Promotions.findByPk(promotionsId);
+const createNewCart = async (loginUserId, productId, talle, color, quantity, promoCode) => {
+    let userCompra = await LoginUser.findByPk(loginUserId);
+    let talleProd = await TalleProduct.findOne({ where: { talle: talle } });
+    let colorProd = await ColorProduct.findOne({ where: { color: color } });
+    let newCompraProducto = await createCompraProducto(productId, talleProd, colorProd, quantity);
     let newCart = await Cart.create();
-    await newCart.setLoginUser(user);
-    await newCart.setLoginUser(compraProducto);
-    await newCart.setLoginUser(promotion);
-    await user.addCart(newCart);
-    await compraProducto.setCart(newCart);
+    await newCart.setLoginUser(userCompra);
+    await newCart.addCompraProducto(newCompraProducto);
+    // await newCart.setPromotions(promotion);
+    await userCompra.setCart(newCart);
+    await newCompraProducto.setCart(newCart);
     return newCart;
 };
 
-const getCartId = async (cartId) => {
-    const allCarts = await getCarts();
-    const cartById = allCarts.find(c => c.id === cartId);
-    cartById ? cartById :
-    new Error('Agregá productos a tu compra');
-}
-
-const getCarts = async () => {
-    const carts = await Cart.findAll({
+const getCartId = async (loginUserId) => {
+    // const allCarts = await getCarts();
+    const cartById = Cart.findOne({ where: { loginUserId: loginUserId }, 
         include: [
             {
                 model: CompraProducto,
-                attributes: ['ProductId', 'TalleProductId', 'ColorProductId'],
+                attributes: ['ProductId', 'TalleProductId', 'ColorProductId', 'quantity'],
                 through: { attributes: [] },
             }
-        ] 
-    }) 
-    return carts;
-};
+        ]
+    });
+    cartById ? cartById :
+        new Error('Agregá productos a tu compra');
+}
+
+// const getCarts = async () => {
+//     const carts = await Cart.findAll({
+//         include: [
+//             {
+//                 model: CompraProducto,
+//                 attributes: ['ProductId', 'TalleProductId', 'ColorProductId'],
+//                 through: { attributes: [] },
+//             }
+//         ]
+//     })
+//     return carts;
+// };
 
 const updateCartId = async (cartId, compraProductoId) => {
 
 };
 
-const createCompraProducto = async (productId, talle, color, quantity) => {
-    const talleProd = await TalleProduct.findOne({ where: { talle } });
-    const colorProd = await ColorProduct.findOne({ where: { color } });
-    const product = await Product.findByPk(productId);
-    const newCompraProducto = await ColorProduct.create(quantity);
-    await newCompraProducto.setTalleProduct(product);
-    await newCompraProducto.setTalleProduct(talleProd.id);
-    await newCompraProducto.setColorProduct(colorProd.id);
-    return newCompraProducto
-};
-
 module.exports = {
     createNewCart,
     getCartId,
-    updateCartId,
-    createCompraProducto
+    updateCartId
 }
