@@ -15,7 +15,7 @@ const guardarFavorite = async (userId, productId) => {
 const getFavoritos = async (userId) => {
     const user = await LoginUser.findByPk(userId);
     console.log(userId);
-    const favoritos = await user.getProducts();
+    const favoritos = await user.getProducts({ attributes: ['title', 'image', 'price'], through: {attributes: []} });
     return favoritos
 }
 //para remover un usuario, se usa el metodo removeProduct() que se crea de la relacion de las tablas
