@@ -48,7 +48,7 @@ const getAllUsers = async () => {
     return allUsers;
 };
 
-const getInfoUser = async (game) => {
+const getInfoUser = async (user) => {
 };
 
 module.exports = {
