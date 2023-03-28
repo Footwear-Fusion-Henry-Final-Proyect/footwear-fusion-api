@@ -1,13 +1,13 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("CategoriUser", {
+  sequelize.define("Role", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    category: {
+    Rol: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'Customer',

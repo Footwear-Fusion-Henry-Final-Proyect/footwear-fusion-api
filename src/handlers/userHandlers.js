@@ -1,6 +1,6 @@
 const { userCreate, getInfoUser, getAllUsers } = require("../controllers/userControllers");
 
-const postUserHandler = (async (req, res) => {
+const postUserHandler = async (req, res) => {
     let {
         name,
         last_name,
@@ -10,7 +10,7 @@ const postUserHandler = (async (req, res) => {
         email,
         password,
         state,
-        category
+        Role
     } = req.body;
     try {
         let newUser = await userCreate(
@@ -22,12 +22,12 @@ const postUserHandler = (async (req, res) => {
             email,
             password,
             state,
-            category);
+            Role);
         res.status(201).send(`El usuario ${name} ${last_name} fue creado con éxito`);
     } catch (e) {
         res.status(404).send(e.message)
     }
-});
+};
 
 const getUsersHandler = async (req, res) => {
     try {

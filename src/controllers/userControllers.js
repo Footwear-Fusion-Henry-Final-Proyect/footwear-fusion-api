@@ -1,4 +1,4 @@
-const { CategoriUser, DataUser, LoginUser, UserState } = require("../db");
+const { Role, DataUser, LoginUser, UserState } = require("../db");
 
 const userCreate = async (
     name,
@@ -9,7 +9,7 @@ const userCreate = async (
     email,
     password,
     state,
-    category) => {
+    Rol) => {
     let newDataUser = await DataUser.create({
         name,
         last_name,
@@ -25,7 +25,7 @@ const userCreate = async (
 
     let newUserState = await UserState.create({state})
 
-    let newCategoriUser = await CategoriUser.create({category})
+    let newCategoriUser = await Role.create({Rol})
 
     await newDataUser.setLoginUser(newLoginUser)
     await newLoginUser.setDataUser(newDataUser)
@@ -44,8 +44,8 @@ const getAllUsers = async () => {
             attributes: ['state'],
             },
             {
-            model: CategoriUser,
-            attributes: ['category'],
+            model: Role,
+            attributes: ['Rol'],
         }
         ]
     });

@@ -69,7 +69,7 @@ const {
   TalleProduct,
   Promotions,
   ReviewsPuntuacion,
-  CategoriUser,
+  Role,
   DataUser,
   LoginUser,
   UserState,
@@ -83,8 +83,8 @@ LoginUser.belongsTo(DataUser);
 DataUser.belongsTo(LoginUser);
 
 //CategoriUser --- N LoginUser
-CategoriUser.hasMany(LoginUser);
-LoginUser.belongsTo(CategoriUser);
+Role.hasMany(LoginUser);
+LoginUser.belongsTo(Role);
 
 //UserState --- N LoginUser
 UserState.hasMany(LoginUser);
