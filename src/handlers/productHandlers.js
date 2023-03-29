@@ -1,4 +1,4 @@
-const {createProduct, createMarcaProduct, createTalleProduct, createColorProduct, createCategoryProduct, getProduct, serchProduct, ordenProduct, getProductId} = require("../controllers/productControllers")
+const {createProduct, createMarcaProduct, createTalleProduct, createColorProduct, createCategoryProduct, getProduct, serchProduct, ordenProduct, getProductId, updateProduct, getProductPunctuation} = require("../controllers/productControllers")
 const { MarcaProduct, TalleProduct, ColorProduct, CategoriProduct } = require("../db")
 
 const createProductHandler = async (req, res) => {
@@ -115,8 +115,29 @@ const getProductIdHandler = async (req, res) => {
     }
 }
 
+const updateProductHandler = async (req, res) => {
+    try {
+      const { pruductId } = req.params;
+      const product = await updateProduct(pruductId, req.body);
+      res.status(200).json(product);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  };
+
+const productPunctuationHandler = async (req, res) => {
+    try {
+        const products = await getProductPunctuation();
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+}
+
 module.exports = {
     createProductHandler,
     getProductHandler,
-    getProductIdHandler
+    getProductIdHandler,
+    updateProductHandler,
+    productPunctuationHandler
 }

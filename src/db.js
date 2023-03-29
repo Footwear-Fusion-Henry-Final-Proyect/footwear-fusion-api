@@ -21,6 +21,7 @@ const {
     compraOrdenCompraModels,
 } = require("./models/Compra/index");
 
+
 const { reviewsPunctuation } = require("./models/ReviewsPuntajes/index");
 
 const { promocionesModels } = require("./models/Promociones");
@@ -55,6 +56,8 @@ const sequelize = new Sequelize(
   compraCartModels(sequelize);
   compraProductModels(sequelize);
   compraOrdenCompraModels(sequelize);
+  
+
 
 //Relaciono los modelos:
 const {
@@ -66,13 +69,13 @@ const {
   TalleProduct,
   Promotions,
   ReviewsPuntuacion,
-  CategoriUser,
+  Role,
   DataUser,
   LoginUser,
   UserState,
   Cart,
   CompraProducto,
-  OrdenCompra
+  OrdenCompra,
 } = sequelize.models;
 
 //userdata 1 --- 1 loginUser
@@ -80,8 +83,8 @@ LoginUser.belongsTo(DataUser);
 DataUser.belongsTo(LoginUser);
 
 //CategoriUser --- N LoginUser
-CategoriUser.hasMany(LoginUser);
-LoginUser.belongsTo(CategoriUser);
+Role.hasMany(LoginUser);
+LoginUser.belongsTo(Role);
 
 //UserState --- N LoginUser
 UserState.hasMany(LoginUser);
