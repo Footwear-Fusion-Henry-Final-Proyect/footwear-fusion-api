@@ -42,7 +42,6 @@ const getAllCartsHandler = async (req, res) => {
 const getCartIdHandler = async (req, res) => {
     try {
         const loginUserId = req.params.loginUserId;
-        console.log(loginUserId);
         const cart = await getCartId(loginUserId);
         res.status(201).json(cart)
     } catch (error) {

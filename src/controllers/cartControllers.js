@@ -18,7 +18,6 @@ const createNewCart = async (loginUserId, productId, talle, color, quantity, pro
 };
 
 const getCartId = async (loginUserId) => {
-    console.log(loginUserId);
     const cartById = await Cart.findOne({ where: { LoginUserId: loginUserId } });
     const comprasProductosUserId = await CompraProducto.findAll({ where: { CartId: cartById.id },
     // include: [
