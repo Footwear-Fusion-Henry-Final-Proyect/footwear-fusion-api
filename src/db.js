@@ -132,7 +132,7 @@ OrdenCompra.belongsTo(LoginUser);
 
 //cart 1 --- n compraProducto
 Cart.hasMany(CompraProducto);
-CompraProducto.hasOne(Cart);
+CompraProducto.belongsTo(Cart);
 
 //Product 1 --- n compraProducto
 Product.hasMany(CompraProducto);
