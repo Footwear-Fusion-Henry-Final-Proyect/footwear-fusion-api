@@ -7,7 +7,7 @@ const createNewCart = async (loginUserId, productId, talle, color, quantity, pro
     let colorProd = await ColorProduct.findOne({ where: { color: color } });
     let promotion = await Promotions.findOne({ where: { code: promoCode } });
     let newCompraProducto = await createCompraProducto(productId, talleProd, colorProd, quantity);
-    let userCart = await Cart.findOne({ where: { LoginUserId: loginUserId } });
+    let userCart = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
     !userCart ? currentCart = await Cart.create() : currentCart = userCart
     await currentCart.setLoginUser(userCompra);
     await currentCart.addCompraProducto(newCompraProducto);
