@@ -3,7 +3,7 @@ const { Product } = require("../db")
 const getPreciosUnicos = async (res, req) => {
     try {
         const prices = await Product.findAll({ attributes: ['price'], group: 'price' });
-        const uniquePrices = prices.map(product => parseFloat(product.dataValues.price)).filter((price, index, array) => array.indexOf(price) === index);
+        const uniquePrices = prices.map(product => parseInt(product.dataValues.price)).filter((price, index, array) => array.indexOf(price) === index);
         const uniquePricesSorted = uniquePrices.sort(
             function (a, b) {
                 return a - b;

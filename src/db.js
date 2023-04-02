@@ -69,7 +69,7 @@ const {
   TalleProduct,
   Promotions,
   ReviewsPuntuacion,
-  CategoriUser,
+  Role,
   DataUser,
   LoginUser,
   UserState,
@@ -78,13 +78,13 @@ const {
   OrdenCompra,
 } = sequelize.models;
 
-//userdata 1 --- 1 loginUser
-LoginUser.belongsTo(DataUser);
+//userdata n --- 1 loginUser
+LoginUser.hasMany(DataUser);
 DataUser.belongsTo(LoginUser);
 
 //CategoriUser --- N LoginUser
-CategoriUser.hasMany(LoginUser);
-LoginUser.belongsTo(CategoriUser);
+Role.hasMany(LoginUser);
+LoginUser.belongsTo(Role);
 
 //UserState --- N LoginUser
 UserState.hasMany(LoginUser);
@@ -114,10 +114,6 @@ Product.belongsToMany(TalleProduct, { through: "TallesYProducto" });
 Product.hasMany(ReviewsPuntuacion);
 ReviewsPuntuacion.belongsTo(Product);
 
-//cart 1 --- n compraProducto
-Cart.hasMany(CompraProducto);
-CompraProducto.belongsTo(Cart);
-
 //cart 1 --- 1 loginUser
 LoginUser.belongsTo(Cart);
 Cart.belongsTo(LoginUser);
@@ -125,6 +121,10 @@ Cart.belongsTo(LoginUser);
 //ordenCompra 1 --- 1 cart
 Cart.belongsTo(OrdenCompra);
 OrdenCompra.belongsTo(Cart);
+
+//Cart 1 --- 1 Promotions
+Promotions.belongsTo(Cart);
+Cart.belongsTo(Promotions);
 
 //ordenCompra N --- 1 loginUser
 LoginUser.hasMany(OrdenCompra);
@@ -137,5 +137,13 @@ CompraProducto.belongsTo(Cart);
 //Product 1 --- n compraProducto
 Product.hasMany(CompraProducto);
 CompraProducto.belongsTo(Product);
+
+//TalleProduct 1 --- n compraProducto
+TalleProduct.hasMany(CompraProducto);
+CompraProducto.belongsTo(TalleProduct);
+
+//ColorProduct 1 --- n compraProducto
+ColorProduct.hasMany(CompraProducto);
+CompraProducto.belongsTo(ColorProduct);
 
 module.exports = { sequelize, ...sequelize.models };
