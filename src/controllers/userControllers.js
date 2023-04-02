@@ -1,41 +1,43 @@
 const { Role, DataUser, LoginUser, UserState } = require("../db");
 
-const userCreate = async (
+const dataUserCreate = async (
     name,
     last_name,
     phone,
     address,
-    userName,
-    email,
-    password,
-    state,
-    Rol) => {
-    let newDataUser = await DataUser.create({
+    id
+    ) => {
+
+    const userLogiado = await LoginUser.findOne({
+        where: { id: id },
+       });
+
+    const newDataUser = await DataUser.create({
         name,
         last_name,
         phone,
         address
     })
 
-    let newLoginUser = await LoginUser.create({
-        userName,
-        email,
-        password
-    })
+    await newDataUser.setLoginUser(userLogiado)
+    // await userLogiado.setDataUser(newDataUser)
 
-    let newUserState = await UserState.create({state})
+    //Busco el usuario para devolver con el model Data y ver si se carga bien
+    const userLogin = await LoginUser.findOne({
+      where: { id: userLogiado.id },
+      include: [
+      {
+        model: DataUser,
+        attributes: ['name', 'last_name', 'phone', 'address'],
+    },
+  ]});
 
-    let newCategoriUser = await Role.create({Rol})
-
-    await newDataUser.setLoginUser(newLoginUser)
-    await newLoginUser.setDataUser(newDataUser)
-    await newUserState.addLoginUser(newLoginUser)
-    await newCategoriUser.addLoginUser(newLoginUser)
+    return userLogin
 };
 
 const getAllUsers = async () => {
     let allUsers = await LoginUser.findAll({
-        attributes: ['email', 'userName',"id"],
+        attributes: ['email',"id"],
         include: [{
             model: DataUser,
             attributes: ['id', 'name', 'last_name', 'phone', 'address'],},
@@ -49,7 +51,17 @@ const getAllUsers = async () => {
         }
         ]
     });
-    return allUsers;
+    const user = allUsers.map(use => {
+      return datos = {
+        id: use.id,
+        email: use.email,
+        DataUsers: use.DataUsers,
+        state: use.UserState.state,
+        rol: use.Role.Rol
+        
+      }
+    })
+    return user
 };
 
 const getInfoUser = async (name) => {
@@ -60,33 +72,40 @@ const getInfoUser = async (name) => {
       });
     if(userEmail.length) return userEmail;
 
-    const userName = users.filter((user) => {
-        return user.userName.toLowerCase().includes(buscar);
-      });
-    if(userName.length) return userName;
-
     const dataName = users.filter((user) => {
-        return user.DataUser.name.toLowerCase().includes(buscar);
+      if (user.DataUsers) {
+        return user.DataUsers.filter((dato) => {
+          return dato.name.toLowerCase().includes(buscar);
+        }).length > 0;
+      }
       });
     if(dataName.length) return dataName;
     
     const dataLast_name = users.filter((user) => {
-        return user.DataUser.last_name.toLowerCase().includes(buscar);
+      if (user.DataUsers) {
+        return user.DataUsers.filter((dato) => {
+          return dato.last_name.toLowerCase().includes(buscar);
+        }).length > 0;
+      }
       });
     if(dataLast_name.length) return dataLast_name;
 
     const dataAddress = users.filter((user) => {
-        return user.DataUser.address.toLowerCase().includes(buscar);
-      });
+      if (user.DataUsers) {
+        return user.DataUsers.filter((dato) => {
+          return dato.address.toLowerCase().includes(buscar);
+        }).length > 0;
+      }
+    });
     if(dataAddress.length) return dataAddress;
 
     const state = users.filter((user) => {
-        return user.UserState.state.toLowerCase().includes(buscar);
+        return user.state.toLowerCase().includes(buscar);
       });
     if(state.length) return state;
 
     const categoriUser = users.filter((user) => {
-        return user.CategoriUser.category.toLowerCase().includes(buscar);
+        return user.rol.toLowerCase().includes(buscar);
       });
     if(categoriUser.length) return categoriUser;
 
@@ -94,7 +113,7 @@ const getInfoUser = async (name) => {
 };
 
 module.exports = {
-    userCreate,
+    dataUserCreate,
     getInfoUser,
     getAllUsers
 };
