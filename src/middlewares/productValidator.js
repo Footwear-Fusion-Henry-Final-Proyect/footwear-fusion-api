@@ -1,4 +1,3 @@
-
 const validateProduct = (req, res, next) => {
   const { category, color, marca, talle } = req.body;
 
