@@ -78,8 +78,8 @@ const {
   OrdenCompra,
 } = sequelize.models;
 
-//userdata 1 --- 1 loginUser
-LoginUser.belongsTo(DataUser);
+//userdata n --- 1 loginUser
+LoginUser.hasMany(DataUser);
 DataUser.belongsTo(LoginUser);
 
 //CategoriUser --- N LoginUser

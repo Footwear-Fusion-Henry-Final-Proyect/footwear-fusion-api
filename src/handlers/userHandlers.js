@@ -1,4 +1,42 @@
-const { userCreate, getInfoUser, getAllUsers } = require("../controllers/userControllers");
+const { dataUserCreate, getInfoUser, getAllUsers } = require("../controllers/userControllers");
+const {registreUser, loginUserControllers, loginGoogle} = require("../controllers/registroLoginControllers");
+
+const postRegistroHandller = async (req, res) => {
+    try {
+        const {email} = req.body;
+
+        const user = await registreUser(email);
+        res.status(201).json(user)
+
+    } catch (error) {
+        res.status(400).json({error: "El usuario ya existe"})
+    }
+}
+
+const postLoginUser = async (req, res) => {
+    try {
+        const {email} = req.body;
+
+        const user = await loginUserControllers(email);
+        res.status(201).json(user)
+
+    } catch (error) {
+        res.status(400).json({error: "El usuario no existe"})
+    }
+}
+
+const postLoginGoogle = async (req, res) => {
+    try {
+        const {email} = req.body;
+
+        const user = await loginGoogle(email);
+        res.status(201).json(user)
+        
+    } catch (error) {
+        res.status(400).json({error: error.menssage})
+    }
+}
+
 
 const postUserHandler = async (req, res) => {
     let {
@@ -6,24 +44,18 @@ const postUserHandler = async (req, res) => {
         last_name,
         phone,
         address,
-        userName,
-        email,
-        password,
-        state,
-        Role
     } = req.body;
+    const {id} = req.params
+
     try {
-        let newUser = await userCreate(
+        let newUser = await dataUserCreate(
             name,
             last_name,
             phone,
             address,
-            userName,
-            email,
-            password,
-            state,
-            Role);
-        res.status(201).send(`El usuario ${name} ${last_name} fue creado con éxito`);
+            id
+            );
+        res.status(201).json(newUser);
     } catch (e) {
         res.status(404).send(e.message)
     }
@@ -41,5 +73,8 @@ const getUsersHandler = async (req, res) => {
 
 module.exports = {
     postUserHandler,
-    getUsersHandler
+    getUsersHandler,
+    postRegistroHandller,
+    postLoginUser,
+    postLoginGoogle
 }
