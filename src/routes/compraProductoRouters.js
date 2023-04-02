@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { createCompraProductoHandler, updateCompraProductoHandler, deleteCompraProductoHandler } = require("../handlers/compraProductoHandlers");
+const { updateCompraProductoHandler, deleteCompraProductoHandler } = require("../handlers/compraProductoHandlers");
 
 const compraProductoRouters = Router();
 
