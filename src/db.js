@@ -21,6 +21,7 @@ const {
     compraOrdenCompraModels,
 } = require("./models/Compra/index");
 
+
 const { reviewsPunctuation } = require("./models/ReviewsPuntajes/index");
 
 const { promocionesModels } = require("./models/Promociones");
@@ -55,6 +56,8 @@ const sequelize = new Sequelize(
   compraCartModels(sequelize);
   compraProductModels(sequelize);
   compraOrdenCompraModels(sequelize);
+  
+
 
 //Relaciono los modelos:
 const {
@@ -72,7 +75,7 @@ const {
   UserState,
   Cart,
   CompraProducto,
-  OrdenCompra
+  OrdenCompra,
 } = sequelize.models;
 
 //userdata 1 --- 1 loginUser
