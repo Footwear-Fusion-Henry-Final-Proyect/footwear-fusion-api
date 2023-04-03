@@ -17,6 +17,10 @@ const createPreferenceHandlers = async (req, res) => {
                 quantity: parseInt(req.body.quantity),
             }
         ],
+        // payer: {
+        //     name: user.name,
+        //     email: user.email
+        // },
         back_urls: {
             "success": "http://localhost:3001/mp/feedback",
             "failure": "http://localhost:3001/mp/feedback",
@@ -28,7 +32,7 @@ const createPreferenceHandlers = async (req, res) => {
     mercadopago.preferences.create(preference)
         .then(function (response) {
             res.json({
-                id: response.body.id
+                global: response.body
             });
         }).catch(function (error) {
             console.log(error);
