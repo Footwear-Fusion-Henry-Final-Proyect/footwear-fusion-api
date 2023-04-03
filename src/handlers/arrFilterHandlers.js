@@ -35,14 +35,6 @@ const getCategoryHandlers = async (req, res) => {
         res.status(404).json({ error: error.message })
     }
 }
-// const getCategoryHandlers = async (req, res) => {  
-//     try {
-//         const category = await getCategori();
-//         res.status(201).json(category);
-//     } catch (error) {
-//         res.status(404).json({ error: error.message })
-//     }
-// }
 
 module.exports = {
     getcolorHandlers,
