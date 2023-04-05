@@ -10,6 +10,7 @@ const compraProductoRouters = require("./compraProductoRouters");
 const ordenCompraRouters = require("./ordenCompraRouters");
 const preciosRouters = require("./preciosRouters");
 const mpRouters = require('./mpRouters')
+const adminRouter = require("./adminRouters")
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use('/compraproducto', compraProductoRouters);
 router.use('/ordencompra', ordenCompraRouters);
 router.use('/precios', preciosRouters);
 router.use('/mp', mpRouters)
+router.use("/admin", adminRouter)
 
 module.exports = router;
