@@ -5,8 +5,7 @@ const {LoginUser, Role, UserState} = require("../db")
 const {SECRET} = process.env;
 
 const registreUser = async (email, rol) => {
-    console.log(rol);
-
+    
     const newUserRegister = await LoginUser.create({
         email: email.toLowerCase(),
     });
