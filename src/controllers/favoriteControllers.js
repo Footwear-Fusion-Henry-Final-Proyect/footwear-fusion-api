@@ -27,7 +27,7 @@ const guardarFavorite = async (userId, productId) => {
 //Para traer los favoritos del usuario con el metodo getProducts() que se crea de la relacion de las tablas
 const getFavoritos = async (userId) => {
     const user = await LoginUser.findByPk(userId);
-    const favoritos = await user.getProducts({ attributes: ['title', 'image', 'price'],include:[ {
+    const favoritos = await user.getProducts({ attributes: ['id','title', 'image', 'price'],include:[ {
         model: MarcaProduct,
         attributes: ['name']
     }
