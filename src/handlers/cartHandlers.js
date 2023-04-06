@@ -17,11 +17,11 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 // };
 
 const createCartHandler = async (req, res) => {
+    console.log(req.body, req.params.loginUserId, 'cartHandler');
     try {
-        const loginUserId = req.params.loginUserId
-        const productId = req.params.productId
-        const { talle, color, quantity, promoCode } = req.body;
-        const newCart = await createNewCart(loginUserId, productId, talle, color, quantity, promoCode);
+        const loginUserId = req.params.loginUserId;
+        const { id, size, description, qty, color, promoCode } = req.body;
+        const newCart = await createNewCart(loginUserId, id, size, description, qty, color, promoCode);
         res.status(201).json(newCart)
     } catch (error) {
         res.status(404).json({ error: error.message });

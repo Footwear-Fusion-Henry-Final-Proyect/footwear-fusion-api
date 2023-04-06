@@ -1,12 +1,13 @@
 const { Product, TalleProduct, ColorProduct, CompraProducto, Cart } = require("../db");
 
-const createCompraProducto = async (productId, talleProd, colorProd, quantity) => {
-    // const product = await Product.findByPk(productId);
-    // const newCompraProducto = await CompraProducto.create(quantity);
-    // await newCompraProducto.setTalleProduct(talleProd);
-    // await newCompraProducto.setColorProduct(colorProd);
-    // await newCompraProducto.setProduct(product);
-    // return newCompraProducto;
+const createCompraProducto = async (id, talleProd, colorProd, qty) => {
+    const product = await Product.findByPk(id);
+    console.log(qty, talleProd, colorProd, 'compraProductoController');
+    const newCompraProducto = await CompraProducto.create(qty);
+    await newCompraProducto.setProduct(product);
+    await newCompraProducto.setTalleProduct(talleProd);
+    if (colorProd.keys(objeto).length !== 0) await newCompraProducto.setColorProduct(colorProd);
+    return newCompraProducto;
 };
 
 const updateCompraProducto = async (compraProductoId, talle, color, quantity) => {

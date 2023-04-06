@@ -9,31 +9,31 @@ mercadopago.configure({
 });
 
 const createPreferenceHandlers = async (req, res) => {
-    const item = req.body.item
+    const item = req.body.item;
+    console.log(item, 'mpHandler');
     const usuario = req.body.user
-    console.log(req.body);
-    console.log(usuario);
+    console.log(usuario, 'mpHandler');
     let preference = {
         items: item,
         payer: {
-			phone: {
-				area_code: req.body.user.area_code,
-				number: parseInt(req.body.user.number),
-			},
-			// address: {
-			// 	zip_code: req.body.zip_code,
-			// 	street_name: req.body.street_name,
-			// 	street_number: parseInt(req.body.street_number)
-			// },
-			// email: req.body.email,
-			// identification: {
-			// 	number: req.body.number,
-			// 	type: req.body.type
-			// },
-			// name: req.body.name,
-			// surname: req.body.surname,
-		},
-		
+            phone: {
+                area_code: req.body.user.area_code,
+                number: parseInt(req.body.user.number),
+            },
+            // address: {
+            // 	zip_code: req.body.zip_code,
+            // 	street_name: req.body.street_name,
+            // 	street_number: parseInt(req.body.street_number)
+            // },
+            // email: req.body.email,
+            // identification: {
+            // 	number: req.body.number,
+            // 	type: req.body.type
+            // },
+            // name: req.body.name,
+            // surname: req.body.surname,
+        },
+
         back_urls: {
             "success": "http://localhost:3000",
             "failure": "http://localhost:3000",
