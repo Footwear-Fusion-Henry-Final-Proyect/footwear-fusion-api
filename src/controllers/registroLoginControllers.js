@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const {LoginUser, Role, UserState} = require("../db")
+//importamos transporte para mandar los correos
+// const {transporter} = require("../config/nodeMailer");
+const {mensajeBienvenida} = require("./mensajesControllers")
 
 const {SECRET} = process.env;
 
@@ -39,6 +42,9 @@ const registreUser = async (email, rol) => {
     const token = jwt.sign({ id: newUserRegister.id }, SECRET, {
         expiresIn: 3600, // 1 hora
     });
+
+    //antes del return ejecutamos la funccion que manda el mensaje 
+    await mensajeBienvenida(email)
 
     //Devuelvo los datos que quiero
     return user = {

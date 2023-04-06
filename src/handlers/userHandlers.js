@@ -4,8 +4,6 @@ const {registreUser, loginUserControllers, loginGoogle} = require("../controller
 const postRegistroHandller = async (req, res) => {
     try {
         const {email, rol} = req.body;
-        
-
         const user = await registreUser(email, rol);
         res.status(201).json(user)
 
