@@ -1,12 +1,11 @@
 const { Router } = require("express");
 const {createFavoriteHandlers, getFovoritoHandlers, deletFavoritoHandler, deleteVaciarFavoritosHandler} = require("../handlers/favoriteHandlers");
-const { verifyToken } = require("../middlewares/userValidator");
 
 const favoriteRouters = Router();
 
-favoriteRouters.post("/:userId/:productId", verifyToken, createFavoriteHandlers)
-favoriteRouters.get("/:userId", verifyToken, getFovoritoHandlers)
-favoriteRouters.delete("/:userId/:productId", verifyToken, deletFavoritoHandler)
-favoriteRouters.delete("/:userId", verifyToken, deleteVaciarFavoritosHandler)
+favoriteRouters.post("/:userId/:productId",createFavoriteHandlers)
+favoriteRouters.get("/:userId",getFovoritoHandlers)
+favoriteRouters.delete("/:userId/:productId",deletFavoritoHandler)
+favoriteRouters.delete("/:userId",deleteVaciarFavoritosHandler)
 
 module.exports = favoriteRouters

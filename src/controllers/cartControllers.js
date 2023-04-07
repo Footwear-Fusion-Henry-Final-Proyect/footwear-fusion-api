@@ -1,20 +1,17 @@
-const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser, DataUser, MarcaProduct } = require("../db")
+const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser, DataUser } = require("../db")
 const { createCompraProducto } = require("./compraProductoControllers")
 
-const createNewCart = async (loginUserId, id, size, description, qty, color, promoCode) => {
-    let colorProd = {};
-    let promotion = {};
+const createNewCart = async (loginUserId, productId, talle, color, quantity, promoCode) => {
     let userCompra = await LoginUser.findByPk(loginUserId);
-    if (color) colorProd = await ColorProduct.findOne({ where: { color: color } });
-    let talleProd = await TalleProduct.findOne({ where: { talle: size } });
-    if (promoCode) promotion = await Promotions.findOne({ where: { code: promoCode } });
-    let newCompraProducto = await createCompraProducto(id, talleProd, colorProd, qty);
+    let talleProd = await TalleProduct.findOne({ where: { talle: talle } });
+    let colorProd = await ColorProduct.findOne({ where: { color: color } });
+    let promotion = await Promotions.findOne({ where: { code: promoCode } });
+    let newCompraProducto = await createCompraProducto(productId, talleProd, colorProd, quantity);
     let userCart = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
-    console.log(userCart, 'cartcontroler');
     !userCart ? currentCart = await Cart.create() : currentCart = userCart
     await currentCart.setLoginUser(userCompra);
     await currentCart.addCompraProducto(newCompraProducto);
-    if (Object.keys(promotion).length !== 0) await currentCart.addPromotions(promotion);
+    if (promotion) await currentCart.addPromotions(promotion);
     await userCompra.setCart(currentCart);
     await newCompraProducto.setCart(currentCart);
     return currentCart;
@@ -22,26 +19,23 @@ const createNewCart = async (loginUserId, id, size, description, qty, color, pro
 
 const getCartId = async (loginUserId) => {
     const cartById = await Cart.findOne({ where: { LoginUserId: loginUserId } });
-    const comprasProductosUserId = await CompraProducto.findAll({
-        where: { CartId: cartById.id },
-        include: [
-            {
-                model: Product,
-                attributes: ['title', 'price', 'image', 'code'],
-                include: [
-                    {
-                        model: MarcaProduct,
-                        attributes: ['name'],
-                    }]
-            }, {
-                model: TalleProduct,
-                attributes: ['talle'],
-            }, {
-                model: ColorProduct,
-                attributes: ['color'],
-            }
-        ]
-    });
+    const comprasProductosUserId = await CompraProducto.findAll({ where: { CartId: cartById.id },
+    // include: [
+    //     {
+    //         model: Product,
+    //         attributes: ['title', 'price', 'image', 'code'],
+    //         through: { attributes: [] }
+    //     },{
+    //         model: TalleProduct,
+    //         attributes: ['talle'],
+    //         through: { attributes: [] }
+    //     },{
+    //         model: ColorProduct,
+    //         attributes: ['color'],
+    //         through: { attributes: [] }
+    //     }
+    // ]
+  });
     return comprasProductosUserId
 }
 

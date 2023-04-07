@@ -17,12 +17,12 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 // };
 
 const createCartHandler = async (req, res) => {
-    console.log(req.body, req.params.loginUserId, 'cartHandler');
     try {
-        const loginUserId = req.params.loginUserId;
-        const { id, size, description, qty, color, promoCode } = req.body;
-        await createNewCart(loginUserId, id, size, description, qty, color, promoCode);
-        res.status(201).json('Producto agregado con exito')
+        const loginUserId = req.params.loginUserId
+        const productId = req.params.productId
+        const { talle, color, quantity, promoCode } = req.body;
+        const newCart = await createNewCart(loginUserId, productId, talle, color, quantity, promoCode);
+        res.status(201).json(newCart)
     } catch (error) {
         res.status(404).json({ error: error.message });
     }
@@ -43,18 +43,7 @@ const getCartIdHandler = async (req, res) => {
     try {
         const loginUserId = req.params.loginUserId;
         const cart = await getCartId(loginUserId);
-        const cartUser = cart.map(cp => ({
-            id: cp.ProductId,
-            code: cp.Product.code,
-            title: cp.Product.title,
-            image: cp.Product.image,
-            price: cp.Product.price,
-            marca: cp.Product.MarcaProducts[0].name,
-            talle: cp.TalleProduct.talle,
-            color: cp.ColorProduct,
-            qty: cp.qty
-        }) )
-        res.status(201).json(cartUser)
+        res.status(201).json(cart)
     } catch (error) {
         res.status(404).json({ error: error.message });
     }

@@ -1,4 +1,3 @@
-
 const { getcolor, getTalles, getMarcas, getCategori } = require("../controllers/arrayFilterControllers")
 
 const getcolorHandlers = async (req, res) => {
@@ -42,6 +41,4 @@ module.exports = {
     getTalleHandlers,
     getMarcasHandlers,
     getCategoryHandlers
-
-
 }

@@ -1,51 +1,23 @@
 const {
     Product,
-    LoginUser,
-    MarcaProduct
+    LoginUser
 } = require("../db")
 
 //Para agragar los favoritos del usuario con el metodo addProduct() que se crea de la relacion de las tablas
 const guardarFavorite = async (userId, productId) => {
     const user = await LoginUser.findByPk(userId);
-    const product = await Product.findOne({where:{id: productId },
-        include:[ {
-            model: MarcaProduct,
-            attributes: ['name']
-        }
-    ]})
-    const producFavorite = {
-        id: product.id,
-        title: product.title,
-        image: product.image,
-        marca: product.MarcaProducts[0].name,
-        price: product.price
-    }
+    const product = await Product.findByPk(productId);
     await user.addProduct(product);
-    return producFavorite;
+    return product;
 }
 
 //Para traer los favoritos del usuario con el metodo getProducts() que se crea de la relacion de las tablas
 const getFavoritos = async (userId) => {
     const user = await LoginUser.findByPk(userId);
-    const favoritos = await user.getProducts({ attributes: ['id','title', 'image', 'price'],include:[ {
-        model: MarcaProduct,
-        attributes: ['name']
-    }
-] });
-
-const producFavorite = favoritos.map(produc => {
-    return {
-        id: produc.id,
-        title: produc.title,
-        image: produc.image,
-        marca: produc.MarcaProducts[0].name,
-        price: produc.price
-    }
-})
-
-    return producFavorite
+    console.log(userId);
+    const favoritos = await user.getProducts({ attributes: ['title', 'image', 'price'], through: {attributes: []} });
+    return favoritos
 }
-
 //para remover un usuario, se usa el metodo removeProduct() que se crea de la relacion de las tablas
 const deleteFavorito = async (userId, productId) => {
     const user = await LoginUser.findByPk(userId);

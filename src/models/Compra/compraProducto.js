@@ -8,13 +8,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             primaryKey: true
         },
-        qty: {
-            type: DataTypes.STRING,
+        quantity: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-        // },
-        // description: {
-        //     type: DataTypes.STRING(1234),
-        //     allowNull: true,
-        }
+            defaultValue: 1,
+        },
     },{ timestamps: false });
 };
