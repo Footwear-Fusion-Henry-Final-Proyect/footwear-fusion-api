@@ -3,7 +3,7 @@ const { createCartHandler, getCartIdHandler, updateCartIdHandler } = require("..
 
 const cartRouters = Router();
 
-cartRouters.post("/:loginUserId/:productId", createCartHandler)
+cartRouters.post("/:loginUserId", createCartHandler)
 cartRouters.get("/:loginUserId", getCartIdHandler)
 cartRouters.put("/:cartId", updateCartIdHandler)
 
