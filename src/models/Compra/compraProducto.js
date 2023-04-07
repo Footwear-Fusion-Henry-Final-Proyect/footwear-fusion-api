@@ -11,11 +11,10 @@ module.exports = (sequelize) => {
         qty: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 1,
-        },
-        description: {
-            type: DataTypes.STRING(1234),
-            allowNull: true,
+        // },
+        // description: {
+        //     type: DataTypes.STRING(1234),
+        //     allowNull: true,
         }
     },{ timestamps: false });
 };

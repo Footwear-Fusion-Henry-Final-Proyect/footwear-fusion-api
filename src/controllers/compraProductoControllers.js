@@ -2,11 +2,10 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart } = require(".
 
 const createCompraProducto = async (id, talleProd, colorProd, qty) => {
     const product = await Product.findByPk(id);
-    console.log(qty, talleProd, colorProd, 'compraProductoController');
-    const newCompraProducto = await CompraProducto.create(qty);
+    const newCompraProducto = await CompraProducto.create({qty});
     await newCompraProducto.setProduct(product);
     await newCompraProducto.setTalleProduct(talleProd);
-    if (colorProd.keys(objeto).length !== 0) await newCompraProducto.setColorProduct(colorProd);
+    if (Object.keys(colorProd).length !== 0) await newCompraProducto.setColorProduct(colorProd);
     return newCompraProducto;
 };
 
