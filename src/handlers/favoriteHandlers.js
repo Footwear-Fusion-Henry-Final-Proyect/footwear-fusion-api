@@ -3,7 +3,7 @@ const { guardarFavorite, getFavoritos, deleteFavorito, vaciarFavoritos } = requi
 const createFavoriteHandlers = async (req, res) => {
     try {
         const userId = req.params.userId
-        const productId = req.params.productId
+        const productId = req.params.prodId
         const favorite = await guardarFavorite(userId, productId);
         res.status(201).json(favorite)
     } catch (error) {
