@@ -1,17 +1,19 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const {LoginUser, Role, UserState} = require("../db")
+//importamos transporte para mandar los correos
+// const {transporter} = require("../config/nodeMailer");
 
 const {SECRET} = process.env;
 
 const registreUser = async (email, rol) => {
-
+    
     const newUserRegister = await LoginUser.create({
         email: email.toLowerCase(),
     });
 
     //Creo el rol
-    const newRolUser = await Role.create({rol});
+    const newRolUser = await Role.create({Rol: rol});
 
     //Creo el Status
     const newStatus = await UserState.create();
