@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const {LoginUser, Role, UserState} = require("../db")
+//importamos transporte para mandar los correos
+// const {transporter} = require("../config/nodeMailer");
 
 const {SECRET} = process.env;
 
