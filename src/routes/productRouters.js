@@ -5,7 +5,7 @@ const { verifyToken, isAdmin } = require("../middlewares/userValidator");
 
 const productRouter = Router();
 
-productRouter.post("/",[ verifyToken, isAdmin, validateProduct],createProductHandler)
+productRouter.post("/",createProductHandler)
 productRouter.get("/", getProductHandler)
 productRouter.get("/punctuation",productPunctuationHandler)
 productRouter.get("/:pruductId", getProductIdHandler)
