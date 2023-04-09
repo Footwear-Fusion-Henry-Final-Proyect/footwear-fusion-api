@@ -1,4 +1,4 @@
-const { crearUserAdmin } = require("../controllers/adminControllers");
+const { crearUserAdmin, adminProductId } = require("../controllers/adminControllers");
 
 const createAdminHandlers = async (req, res) => {
     try {
@@ -11,6 +11,17 @@ const createAdminHandlers = async (req, res) => {
     }
 }
 
+const adminProductIdHandler = async (req, res) => {
+    try {
+        const {pruductId} = req.params;
+        const product = await adminProductId(pruductId);
+        res.status(201).json(product)
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+}
+
 module.exports = {
-    createAdminHandlers
+    createAdminHandlers,
+    adminProductIdHandler
 }

@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const {
-    createAdminHandlers
+    createAdminHandlers,
+    adminProductIdHandler,
 } = require("../handlers/adminHandler");
 const { verifyToken, isAdmin } = require("../middlewares/userValidator");
 
