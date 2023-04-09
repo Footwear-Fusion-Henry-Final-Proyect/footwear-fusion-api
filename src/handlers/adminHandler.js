@@ -23,5 +23,5 @@ const adminProductIdHandler = async (req, res) => {
 
 module.exports = {
     createAdminHandlers,
-    adminProductId
+    adminProductIdHandler
 }

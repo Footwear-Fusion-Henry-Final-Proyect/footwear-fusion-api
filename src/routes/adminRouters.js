@@ -1,14 +1,14 @@
 const { Router } = require("express");
 const {
     createAdminHandlers,
-    adminProductId
+    adminProductIdHandler
 } = require("../handlers/adminHandler");
 const { verifyToken, isAdmin } = require("../middlewares/userValidator");
 
 const adminRouter = Router();
 
 adminRouter.post("/registro",[verifyToken, isAdmin], createAdminHandlers)
-adminRouter.get("/product/:pruductId", adminProductId)
+adminRouter.get("/product/:pruductId", adminProductIdHandler)
 
 
 module.exports = adminRouter;
