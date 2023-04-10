@@ -1,4 +1,4 @@
-const { createNewCart, getCartId, updateCartId, updateUserCart, getAllCarts } = require("../controllers/cartControllers")
+const { createNewCart, getCartId, updateCartId, updateUserCart, getAllCarts, idCart } = require("../controllers/cartControllers")
 const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser } = require("../db")
 
 // const selectCartHandler = async (req, res) => {
@@ -72,9 +72,20 @@ const updateCartIdHandler = async (req, res) => {
     }
 };
 
+const getCartIDdHandler = async (req, res) => {
+    try {
+        const loginUserId = req.params.loginUserId;
+        const cart = await idCart(loginUserId);
+        res.status(201).json(cart)
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
+
 module.exports = {
     createCartHandler,
     getCartIdHandler,
     updateCartIdHandler,
-    getAllCartsHandler
+    getAllCartsHandler,
+    getCartIDdHandler
 }
