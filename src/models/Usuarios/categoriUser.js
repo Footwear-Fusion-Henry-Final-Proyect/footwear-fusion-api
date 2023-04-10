@@ -6,11 +6,14 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
+
     },
     Rol: {
       type: DataTypes.STRING,
+      values: ["admin", "customer"],
       allowNull: false,
-      defaultValue: 'Customer',
+      defaultValue: 'customer',
     },
+
   },{ timestamps: false });
 };
