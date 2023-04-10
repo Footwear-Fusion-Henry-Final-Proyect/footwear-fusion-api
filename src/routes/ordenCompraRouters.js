@@ -3,7 +3,7 @@ const { createOrdenCompraHandler, updateOrdenCompraHandler, getOrdenCompraHandle
 
 const ordenCompraRouters = Router();
 
-ordenCompraRouters.post("/:cartId", createOrdenCompraHandler)
+ordenCompraRouters.post("/:userId", createOrdenCompraHandler)
 ordenCompraRouters.put("/:ordenCompraId", updateOrdenCompraHandler)
 ordenCompraRouters.get("/:loginUserId", getOrdenCompraHandler)
 ordenCompraRouters.delete("/:ordenCompraId", deleteOrdenCompraHandler)

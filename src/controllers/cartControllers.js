@@ -21,7 +21,7 @@ const createNewCart = async (loginUserId, id, size, description, qty, color, pro
 };
 
 const getCartId = async (loginUserId) => {
-    const cartById = await Cart.findOne({ where: { LoginUserId: loginUserId } });
+    const cartById = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
     const comprasProductosUserId = await CompraProducto.findAll({
         where: { CartId: cartById.id },
         include: [
@@ -70,10 +70,16 @@ const updateCartId = async (cartId, compraProductoId) => {
 
 };
 
+const idCart = async (loginUserId) => {
+    const cartById = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
+    return cartById;
+}
+
 module.exports = {
     createNewCart,
     getCartId,
     updateCartId,
     updateUserCart,
-    getAllCarts
+    getAllCarts,
+    idCart
 }

@@ -1,4 +1,5 @@
 // SDK de Mercado Pago
+const { log } = require("console");
 const mercadopago = require("mercadopago");
 // Agrega credenciales
 require("dotenv").config();
@@ -29,33 +30,72 @@ const createPreferenceHandlers = async (req, res) => {
     let preference = {
         items: items,
         back_urls: {
-            "success": "http://localhost:3000",
+            "success": "http://localhost:3000/success",
             "failure": "http://localhost:3000",
             "pending": ""
         },
         auto_return: "approved",
-        binary_mode: true,
+        binary_mode: true
     };
 
     mercadopago.preferences.create(preference)
         .then(function (response) {
             res.json({
-                global: response.body
+                global: response.body,
             });
         }).catch(function (error) {
             console.log(error);
         });
 };
 
-const feedbackHandlers = async (req, res) => {
-    res.json({
-        Payment: req.query.payment_id,
-        Status: req.query.status,
-        MerchantOrder: req.query.merchant_order_id
-    });
+// Handler para URL de éxito
+const handleSuccess = async (req, res) => {
+    const { collection_id, payment_id, payment_type, status } = req.query;
+
+    if (status === "approved") {
+        const aprobado = {
+            collection_id,
+            payment_id,
+            payment_type,
+            status
+        }
+        console.log(`Pago aprobado: collection_id=${collection_id}, payment_id=${payment_id}, external_reference=${payment_type}`);
+        res.json(aprobado);
+    } else {
+        // El pago no fue aprobado
+        console.log(`Pago rechazado: collection_id=${collection_id}, payment_id=${payment_id}, external_reference=${payment_type}`);
+        res.send("Pago rechazado");
+    }
 };
+
+
+const getStatusCompra = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const payment = await mercadopago.payment.get(id);
+      
+      const response = {
+        authorization_code: payment.body.authorization_code,
+        card: payment.body.card,
+        date_approved: payment.body.date_approved,
+        payment_method: payment.body.payment_method_id,
+        status: payment.body.status,
+        transaction_amount: payment.body.transaction_amount,
+        transaction_details: payment.body.transaction_details
+      };
+
+      res.json(response);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener el estado del pago' });
+    }
+  };
+
+
 
 module.exports = {
     createPreferenceHandlers,
-    feedbackHandlers
+    getStatusCompra,
+    handleSuccess
+   
 }
