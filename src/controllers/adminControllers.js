@@ -1,4 +1,5 @@
 const { LoginUser, Role, UserState } = require("../db");
+const { getProduct } = require("./productControllers");
 const { registreUser } = require("./registroLoginControllers");
 
 const crearUserAdmin = async (email, rol) => {
@@ -16,6 +17,14 @@ const crearUserAdmin = async (email, rol) => {
   return newUser;
 };
 
+const adminProductId = async (pruductId) => {
+  const product = await getProduct();
+  const productId = product.find(product => product.id === pruductId);
+  if(productId) return productId;
+  throw new Error(`${pruductId} no encontrado`);
+}
+
 module.exports = {
   crearUserAdmin,
+  adminProductId
 };
