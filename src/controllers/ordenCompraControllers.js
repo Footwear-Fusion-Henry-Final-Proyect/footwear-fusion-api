@@ -1,10 +1,10 @@
-const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser, DataUser, OrdenCompra } = require("../db")
+const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser, DataUser, OrdenCompra } = require("../db");
+const { idCart } = require("./cartControllers");
 
 
-const createOrdenCompra = async (address, promotion, createdAt, payment, orderStatus, total, cartId, userId) => {
-    const cart = await Cart.findByPk(cartId);
+const createOrdenCompra = async (address, promotion, createdAt, payment, orderStatus, total, userId) => {
+    const cart = await idCart(userId)
     const user = await LoginUser.findByPk(userId);
-    console.log(address, promotion, createdAt, payment, orderStatus, total, cartId, userId);
     const newOrden = await OrdenCompra.create({
         address: address,
         promotion: promotion,
@@ -13,7 +13,7 @@ const createOrdenCompra = async (address, promotion, createdAt, payment, orderSt
         orderStatus: orderStatus,
         total: total
       });
-    newOrden.setCart(cart);
+    newOrden.setCart(cart.id);
     cart.setOrdenCompra(newOrden)
     newOrden.setLoginUser(user);
     return newOrden
