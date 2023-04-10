@@ -111,9 +111,26 @@ const getInfoUser = async (name) => {
 
     throw new Error(`No se encontron usuarios que coincidan con este dato: ${name}`);
 };
+const updateUserRole = async (userId, role) => {
+  //const adminRole = await Roles.findOne({ where: { name: "admin" } }); //busco el rol del admin en la db
+ 
+  const user = await LoginUser.findByPk(userId);//busco el usuario por id
+  const userRole = await Role.findOne({ where: { Rol: role } });
+  if(userRole) {
+    user.setRole(userRole.id); //cambio el rol que ya tiene por otro
+    }
+    else {throw new Error ("rol not found")
+    }
+  
+  //console.log(user, "adri");
+
+  return user; //usuario actualizado con nuevo rol
+};
+
 
 module.exports = {
     dataUserCreate,
     getInfoUser,
-    getAllUsers
+    getAllUsers,
+    updateUserRole
 };
