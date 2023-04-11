@@ -2,30 +2,36 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart } = require(".
 
 const createCompraProducto = async (id, talleProd, colorProd, qty) => {
     const product = await Product.findByPk(id);
-    const newCompraProducto = await CompraProducto.create({qty});
+    const newCompraProducto = await CompraProducto.create({ qty });
     await newCompraProducto.setProduct(product);
     await newCompraProducto.setTalleProduct(talleProd);
     if (Object.keys(colorProd).length !== 0) await newCompraProducto.setColorProduct(colorProd);
     return newCompraProducto;
 };
 
-const updateCompraProducto = async (compraProductoId, talle, color, quantity) => {
-    const newTalle = await TalleProduct.findOne({ where: { talle } });
-    const newColor = await ColorProduct.findOne({ where: { color } });
-    let updatedCompraProducto = await CompraProducto.update({
-        TalleProductId: newTalle.id,
-        ColorProductId: newColor.id,
-        quantity: quantity
-    },
-        { where: { id: compraProductoId } })
-    return updatedCompraProducto
+const updateCompraProducto = async (compraProductId, talle, quantity) => {
+    const compraProduct = await CompraProducto.findOne({ where: { id: compraProductId } });
+    let newTalle;
+    if (talle) {
+        newTalle = await TalleProduct.findOne({ where: { talle } });
+        if (!newTalle) {
+            throw new Error(`El talle ${talle} no está disponible`);
+        }
+    }
+    const updateData = {};
+    if (newTalle) {
+        updateData.TalleProductId = newTalle.id;
+    }
+    if (quantity) {
+        updateData.qty = quantity;
+    }
+    await compraProduct.update(updateData);
+    return compraProduct;
 }
 
-const deleteCompraProducto = async (loginUserId, id, talle, qty) => {
-    const userCart = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
-    const productTalle = await TalleProduct.findOne({ where: { talle: talle } });
+const deleteCompraProducto = async (compraProductId) => {
     await CompraProducto.destroy({
-        where: {CartId: userCart.dataValues.id, ProductId: id, TalleProductId: productTalle.id, qty: qty}
+        where: { id: compraProductId }
     })
     return "Producto eliminado del carrito!";
 }

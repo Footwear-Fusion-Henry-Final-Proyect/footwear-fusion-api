@@ -5,7 +5,7 @@ const compraProductoRouters = Router();
 
 // compraProductoRouters.post("/", createCompraProductoHandler)
 // compraProductoRouters.get("/:cartId", getCartIdHandler)
-compraProductoRouters.put("/:loginUserId", updateCompraProductoHandler)
-compraProductoRouters.delete("/:loginUserId", deleteCompraProductoHandler)
+compraProductoRouters.put("/:compraProductId", updateCompraProductoHandler)
+compraProductoRouters.delete("/:compraProductId", deleteCompraProductoHandler)
 
 module.exports = compraProductoRouters;

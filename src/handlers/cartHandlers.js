@@ -43,6 +43,7 @@ const getCartIdHandler = async (req, res) => {
         const loginUserId = req.params.loginUserId;
         const cart = await getCartId(loginUserId);
         const cartUser = cart.map(cp => ({
+            compraProductId: cp.id,
             id: cp.ProductId,
             code: cp.Product.code,
             title: cp.Product.title,
