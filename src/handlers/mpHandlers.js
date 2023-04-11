@@ -10,7 +10,8 @@ mercadopago.configure({
 });
 
 const createPreferenceHandlers = async (req, res) => {
-    const datos = req.body
+    const datos = req.body.data.item
+    const player = req.body.data.player
   
     const items = datos.map(elem => {
         return {
@@ -29,9 +30,10 @@ const createPreferenceHandlers = async (req, res) => {
    
     let preference = {
         items: items,
+        payer: player,
         back_urls: {
             "success": "http://localhost:3000/success",
-            "failure": "http://localhost:3000",
+            "failure": "http://localhost:3000/success",
             "pending": ""
         },
         auto_return: "approved",
@@ -59,11 +61,11 @@ const handleSuccess = async (req, res) => {
             payment_type,
             status
         }
-        console.log(`Pago aprobado: collection_id=${collection_id}, payment_id=${payment_id}, external_reference=${payment_type}`);
+       
         res.json(aprobado);
     } else {
         // El pago no fue aprobado
-        console.log(`Pago rechazado: collection_id=${collection_id}, payment_id=${payment_id}, external_reference=${payment_type}`);
+       
         res.send("Pago rechazado");
     }
 };
@@ -86,7 +88,7 @@ const getStatusCompra = async (req, res) => {
 
       res.json(response);
     } catch (error) {
-      console.error(error);
+     
       res.status(500).json({ error: 'Error al obtener el estado del pago' });
     }
   };

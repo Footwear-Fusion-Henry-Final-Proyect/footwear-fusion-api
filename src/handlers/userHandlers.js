@@ -1,4 +1,4 @@
-const { dataUserCreate, getInfoUser, getAllUsers , updateUserRole} = require("../controllers/userControllers");
+const { dataUserCreate, getInfoUser, getAllUsers , updateUserRole, getDataUserController} = require("../controllers/userControllers");
 const {registreUser, loginUserControllers, loginGoogle} = require("../controllers/registroLoginControllers");
 
 const postRegistroHandller = async (req, res) => {
@@ -87,6 +87,15 @@ const updateUser = async (req, res) => {
   }
   }
 
+const getDataUserHandler =  async (req, res) => {
+    try {
+        const userId = req.params.id
+        const datos = await getDataUserController(userId);
+        res.status(200).json(datos);
+    } catch (error) {
+        res.status(400).json (error.message );
+    }
+}
 
 module.exports = {
     postUserHandler,
@@ -94,6 +103,7 @@ module.exports = {
     postRegistroHandller,
     postLoginUser,
     postLoginGoogle,
-    updateUser
+    updateUser,
+    getDataUserHandler
     
 }

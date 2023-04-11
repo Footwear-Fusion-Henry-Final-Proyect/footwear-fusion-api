@@ -10,7 +10,6 @@ const createNewCart = async (loginUserId, id, size, description, qty, color, pro
     if (promoCode) promotion = await Promotions.findOne({ where: { code: promoCode } });
     let newCompraProducto = await createCompraProducto(id, talleProd, colorProd, qty);
     let userCart = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
-    console.log(userCart, 'cartcontroler');
     !userCart ? currentCart = await Cart.create() : currentCart = userCart
     await currentCart.setLoginUser(userCompra);
     await currentCart.addCompraProducto(newCompraProducto);
@@ -70,8 +69,8 @@ const updateCartId = async (cartId, compraProductoId) => {
 
 };
 
-const idCart = async (loginUserId) => {
-    const cartById = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
+const idCart = async (userId) => {
+    const cartById = await Cart.findOne({ where: { LoginUserId: userId, OrdenCompraId: null } });
     return cartById;
 }
 
