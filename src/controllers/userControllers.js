@@ -127,10 +127,18 @@ const updateUserRole = async (userId, role) => {
   return user; //usuario actualizado con nuevo rol
 };
 
+const getDataUserController = async (userId) => {
+  const datos = await DataUser.findOne({ where: { LoginUserId: userId },
+    attributes: ['name',"last_name", "phone", "address"]
+  })
+  return datos
+}
+
 
 module.exports = {
     dataUserCreate,
     getInfoUser,
     getAllUsers,
-    updateUserRole
+    updateUserRole,
+    getDataUserController
 };

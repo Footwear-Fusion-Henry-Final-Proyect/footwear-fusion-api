@@ -2,14 +2,14 @@ const {createCompraProducto, updateCompraProducto, deleteCompraProducto} = requi
 const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions } = require("../db")
 
 const createCompraProductoHandler = async (req, res) => {
-    // try {
-    //     const loginUserId = req.params.loginUserId;
-    //     const { productId, talle, color, quantity } = req.body;
-    //     const newCompraProducto = await createCompraProducto(productId, talle, color, quantity)
-    //     res.status(201).json(newCompraProducto)
-    // } catch (error) {
-    //     res.status(404).json({ error: error.message })
-    // }
+    try {
+        const loginUserId = req.params.loginUserId;
+        const { productId, talle, color, quantity } = req.body;
+        const newCompraProducto = await createCompraProducto(productId, talle, color, quantity)
+        res.status(201).json(newCompraProducto)
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
 }
 
 const updateCompraProductoHandler = async (req, res) => {
