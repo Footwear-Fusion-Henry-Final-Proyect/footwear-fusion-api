@@ -7,8 +7,7 @@ const { verifyToken, isAdmin } = require("../middlewares/userValidator");
 
 const adminRouter = Router();
 
-adminRouter.post("/registro", createAdminHandlers)
-//adminRouter.post("/registro",[verifyToken, isAdmin], createAdminHandlers)
+adminRouter.post("/registro",[verifyToken, isAdmin], createAdminHandlers)
 adminRouter.get("/product/:pruductId", adminProductIdHandler)
 
 
