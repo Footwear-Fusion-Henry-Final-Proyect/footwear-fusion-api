@@ -21,10 +21,13 @@ const updateCompraProducto = async (compraProductoId, talle, color, quantity) =>
     return updatedCompraProducto
 }
 
-const deleteCompraProducto = async (compraProductoId) => {
-    console.log(compraProductoId);
-    await CompraProducto.destroy({ where: { id: compraProductoId } })
-    return 'Se eliminó el producto de su compra'
+const deleteCompraProducto = async (loginUserId, id, talle, qty) => {
+    const userCart = await Cart.findOne({ where: { LoginUserId: loginUserId, OrdenCompraId: null } });
+    const productTalle = await TalleProduct.findOne({ where: { talle: talle } });
+    await CompraProducto.destroy({
+        where: {CartId: userCart.dataValues.id, ProductId: id, TalleProductId: productTalle.id, qty: qty}
+    })
+    return "Producto eliminado del carrito!";
 }
 
 module.exports = {

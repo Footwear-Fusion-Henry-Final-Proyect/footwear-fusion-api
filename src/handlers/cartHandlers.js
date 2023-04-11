@@ -17,7 +17,6 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 // };
 
 const createCartHandler = async (req, res) => {
-    console.log(req.body, req.params.loginUserId, 'cartHandler');
     try {
         const loginUserId = req.params.loginUserId;
         const { id, size, description, qty, color, promoCode } = req.body;

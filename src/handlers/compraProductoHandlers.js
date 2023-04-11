@@ -25,9 +25,10 @@ const updateCompraProductoHandler = async (req, res) => {
 
 const deleteCompraProductoHandler = async (req, res) => {
     try {
-        const compraProductoId = req.params.compraProductoId;
-        await deleteCompraProducto(compraProductoId);
-        res.status(201).json('Se eliminó el producto de su compra')
+        const loginUserId = req.params.loginUserId;
+        const { id, talle, qty } = req.body; 
+        await deleteCompraProducto(loginUserId, id, talle, qty);
+        res.status(201).json("Producto eliminado del carrito!")
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
