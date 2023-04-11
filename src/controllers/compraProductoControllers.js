@@ -17,14 +17,14 @@ const updateCompraProducto = async (compraProductId, talle, quantity) => {
         if (!newTalle) {
             throw new Error(`El talle ${talle} no está disponible`);
         }
-    }
+    };
     const updateData = {};
     if (newTalle) {
         updateData.TalleProductId = newTalle.id;
-    }
+    };
     if (quantity) {
         updateData.qty = quantity;
-    }
+    };
     await compraProduct.update(updateData);
     return compraProduct;
 }
