@@ -2,21 +2,24 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 const { idCart } = require("./cartControllers");
 
 
-const createOrdenCompra = async (address, promotion, createdAt, payment, orderStatus, total, userId) => {
+const createOrdenCompra = async (address, promotion, payment, orderStatus, total, userId) => {
     const cart = await idCart(userId)
     const user = await LoginUser.findByPk(userId);
-    const newOrden = await OrdenCompra.create({
-        address: address,
-        promotion: promotion,
-        createdAt: createdAt,
-        payment: payment,
-        orderStatus: orderStatus,
-        total: total
-      });
-    newOrden.setCart(cart.id);
-    cart.setOrdenCompra(newOrden)
-    newOrden.setLoginUser(user);
-    return newOrden
+    console.log(address, promotion, payment, orderStatus, total);
+    if(cart && user) {
+        const newOrden = await OrdenCompra.create({
+            address: address,
+            promotion: promotion,
+            payment: payment,
+            orderStatus: orderStatus,
+            total: total
+          });
+          console.log("newOrden", newOrden);
+          newOrden.setCart(cart.id);
+          cart.setOrdenCompra(newOrden)
+          newOrden.setLoginUser(user);
+          return newOrden
+    }
 };
 
 const updateOrdenCompra = async () => {
