@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const moment = require('moment');
 
 module.exports = (sequelize) => {
   const Promotions = sequelize.define("Promotions", {
@@ -9,6 +10,7 @@ module.exports = (sequelize) => {
     },
     discount: {
       type: DataTypes.INTEGER,
+      defaultValue: 10,
       allowNull: false,
     },
     code: {
@@ -20,7 +22,7 @@ module.exports = (sequelize) => {
     },
     expiration: {
         type: DataTypes.DATE,
-        defaultValue: () => moment().add(15, 'days').toDate(),
+        defaultValue: () => moment().add(15, 'days').format('YYYY-MM-DD HH:mm:ss')
     }
   },{ timestamps: false });
 

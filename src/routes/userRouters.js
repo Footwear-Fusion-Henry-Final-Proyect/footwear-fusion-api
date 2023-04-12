@@ -5,7 +5,8 @@ const {
   postRegistroHandller,
   postLoginUser,
   postLoginGoogle,
- updateUser
+ updateUser,
+ getDataUserHandler
 } = require("../handlers/userHandlers");
 
 
@@ -19,9 +20,10 @@ userRouter.post("/google", postLoginGoogle)
 userRouter.post("/:id", postUserHandler);
 userRouter.post("/google", postLoginGoogle)
 userRouter.get("/", getUsersHandler);
-userRouter.get("/",[verifyToken, isAdmin], getUsersHandler);
+// userRouter.get("/",[verifyToken, isAdmin], getUsersHandler);
 //userRouter.put("/:id", updateUser);
 
 userRouter.put("/:id",[verifyToken, isAdmin], updateUser);
+userRouter.get("/datos/:id", getDataUserHandler)
 
 module.exports = userRouter;
