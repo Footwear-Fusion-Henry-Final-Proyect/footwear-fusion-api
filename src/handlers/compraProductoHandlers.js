@@ -14,10 +14,10 @@ const createCompraProductoHandler = async (req, res) => {
 
 const updateCompraProductoHandler = async (req, res) => {
     try {
-        const compraProductoId = req.params.compraProductoId;
-        const { talle, color, quantity } = req.body;
-        const updatedCompraProducto = await updateCompraProducto(compraProductoId, talle, color, quantity)
-        res.status(201).json(updatedCompraProducto)
+        const compraProductId = req.params.compraProductId;
+        const { talle, quantity } = req.body;
+        const compraProduct = await updateCompraProducto(compraProductId, talle, quantity)
+        res.status(201).json(compraProduct)
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
@@ -25,9 +25,9 @@ const updateCompraProductoHandler = async (req, res) => {
 
 const deleteCompraProductoHandler = async (req, res) => {
     try {
-        const compraProductoId = req.params.compraProductoId;
-        await deleteCompraProducto(compraProductoId);
-        res.status(201).json('Se eliminó el producto de su compra')
+        const compraProductId = req.params.compraProductId;
+        await deleteCompraProducto(compraProductId);
+        res.status(201).json("Producto eliminado del carrito!")
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
