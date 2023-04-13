@@ -70,7 +70,7 @@ const getInfoUser = async (name) => {
     const userEmail = users.filter((user) => {
         return user.email.toLowerCase().includes(buscar);
       });
-    if(userEmail.length) return userEmail;
+    if(userEmail.length) return userEmail[0];
 
     const dataName = users.filter((user) => {
       if (user.DataUsers) {
