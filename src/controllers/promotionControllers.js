@@ -19,7 +19,7 @@ const getPromotion = async (code) => {
         }
     });
     if (!codePromo) { return 'Código inválido'};
-    if (currentDate.getTime() > codePromo.expiration.getTime()) {
+    if (currentDate.getTime() < codePromo.expiration.getTime()) {
         return codePromo;
     } else {
         return 'Tu promo expiró';
