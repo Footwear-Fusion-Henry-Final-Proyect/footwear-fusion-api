@@ -10,7 +10,7 @@ mercadopago.configure({
 });
 
 const createPreferenceHandlers = async (req, res) => {
-    console.log(req.body);
+    console.log(req.body.data.player);
     const datos = req.body.data.item
     const player = req.body.data.player
   
