@@ -10,6 +10,7 @@ mercadopago.configure({
 });
 
 const createPreferenceHandlers = async (req, res) => {
+    console.log(req.body);
     const datos = req.body.data.item
     const player = req.body.data.player
   
@@ -21,7 +22,7 @@ const createPreferenceHandlers = async (req, res) => {
                 image: elem.image,
                 unit_price: parseInt(elem.price),
                 marca: elem.marca,
-                size: elem.size,
+                size: elem.talle,
                 quantity: parseInt(elem.qty),
                 description: elem.description
             }
@@ -33,7 +34,7 @@ const createPreferenceHandlers = async (req, res) => {
         payer: player,
         back_urls: {
             "success": "http://localhost:3000/success",
-            "failure": "http://localhost:3000/success",
+            "failure": "http://localhost:3000/failure",
             "pending": ""
         },
         auto_return: "approved",
