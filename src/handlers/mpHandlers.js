@@ -33,7 +33,7 @@ const createPreferenceHandlers = async (req, res) => {
         payer: player,
         back_urls: {
             "success": "http://localhost:3000/success",
-            "failure": "http://localhost:3000/success",
+            "failure": "http://localhost:3000/failure",
             "pending": ""
         },
         auto_return: "approved",

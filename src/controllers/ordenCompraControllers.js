@@ -5,7 +5,6 @@ const { idCart } = require("./cartControllers");
 const createOrdenCompra = async (address, promotion, payment, orderStatus, total, userId) => {
     const cart = await idCart(userId)
     const user = await LoginUser.findByPk(userId);
-    console.log(address, promotion, payment, orderStatus, total);
     if(cart && user) {
         const newOrden = await OrdenCompra.create({
             address: address,
@@ -14,7 +13,6 @@ const createOrdenCompra = async (address, promotion, payment, orderStatus, total
             orderStatus: orderStatus,
             total: total
           });
-          console.log("newOrden", newOrden);
           newOrden.setCart(cart.id);
           cart.setOrdenCompra(newOrden)
           newOrden.setLoginUser(user);
