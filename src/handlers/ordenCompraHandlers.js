@@ -2,9 +2,9 @@ const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra, deleteOrdenCompr
 
 const createOrdenCompraHandler = async (req, res) => {
     try {
-        console.log(req.body.orden);
+        console.log(req.body);
         const userId = req.params.userId;
-        const { address, promotion, payment, orderStatus, total } = req.body.orden;
+        const {address, promotion, payment, orderStatus, total} = req.body.orden
         const cart = await createOrdenCompra(address, promotion, payment, orderStatus, total, userId);
         res.status(201).json(cart)
     } catch (error) {
