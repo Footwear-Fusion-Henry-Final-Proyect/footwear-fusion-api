@@ -19,8 +19,7 @@ userRouter.post("/login", postLoginUser)
 userRouter.post("/google", postLoginGoogle)
 userRouter.post("/:id", postUserHandler);
 userRouter.post("/google", postLoginGoogle)
-userRouter.get("/", getUsersHandler);
-// userRouter.get("/",[verifyToken, isAdmin], getUsersHandler);
+userRouter.get("/",[verifyToken, isAdmin], getUsersHandler);
 //userRouter.put("/:id", updateUser);
 
 userRouter.put("/:id",[verifyToken, isAdmin], updateUser);
