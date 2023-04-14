@@ -13,14 +13,17 @@ module.exports = (sequelize) => {
     },
     last_name: {
       type: DataTypes.STRING,
+      //value: ["last_name"],
       allowNull: false,
     },
     phone: {
       type: DataTypes.STRING,
+     // value: ["phone"],
       allowNull: false,
     },
     address: {
       type: DataTypes.STRING,
+     // value: ["address"],
       allowNull: false,
     },
   },{ timestamps: false });
