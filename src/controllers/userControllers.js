@@ -180,6 +180,15 @@ const updateUserData = async (userId, phone,address, state) => {
 
 };
 
+const getDataUserController = async (userId) =>{
+  console.log(userId);
+  const dataUser = await DataUser.findOne({
+    where: { LoginUserId: userId },
+    attributes: ["id", "name", "last_name", "phone", "address"],
+  })
+  return dataUser
+}
+
 
 module.exports = {
   dataUserCreate,
@@ -187,4 +196,5 @@ module.exports = {
   getAllUsers,
   updateUserRole,
   updateUserData,
+  getDataUserController
 };

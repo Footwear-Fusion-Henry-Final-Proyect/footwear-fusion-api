@@ -160,7 +160,8 @@ const updateStateHandler = async (req, res) => { // actualizar estado del usuari
 
 const getDataUserHandler =  async (req, res) => {
     try {
-        const userId = req.params.id
+      console.log(req.params);
+        const userId = req.params.userId
         const datos = await getDataUserController(userId);
         res.status(200).json(datos);
     } catch (error) {
