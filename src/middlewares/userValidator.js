@@ -42,7 +42,23 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
+
+//Para el registro de nuevo admin que no falte los datos
+const verifyCrearAdmin = async (req, res, next) => {
+  const {email, rol} = req.body;
+ 
+  if(!email) return res.status(400).json({ message:"Falta indicar email"});
+  if(!rol) return res.status(400).json({ message:"Falta indicar rol"});
+  if(rol !== "admin" && rol !== "customer") return res.status(400).json({message:`El rol ${rol} no existe `})
+  const user = await LoginUser.findOne({where : {email: email}});
+  if(user) return res.status(400).json({message: `El ${email} ya esta registrado`})
+
+  next()
+  
+}
+
 module.exports = {
     verifyToken,
-    isAdmin
+    isAdmin,
+    verifyCrearAdmin
 }
