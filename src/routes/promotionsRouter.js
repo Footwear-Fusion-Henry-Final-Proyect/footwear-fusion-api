@@ -5,6 +5,6 @@ const promotionsRouter = Router();
 
 promotionsRouter.post("/",createPromotionsHandler)
 promotionsRouter.get("/:code", getPromotionsHandler)
-promotionsRouter.put("/:promotionId/:cartId", updatePromotionsHandler)
+promotionsRouter.put("/:promotionId/:userId", updatePromotionsHandler)
 
 module.exports = promotionsRouter;

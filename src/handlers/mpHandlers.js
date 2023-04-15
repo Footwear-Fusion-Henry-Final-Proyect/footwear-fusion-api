@@ -1,5 +1,4 @@
 // SDK de Mercado Pago
-const { log } = require("console");
 const mercadopago = require("mercadopago");
 // Agrega credenciales
 require("dotenv").config();
@@ -10,11 +9,9 @@ mercadopago.configure({
 });
 
 const createPreferenceHandlers = async (req, res) => {
-    console.log(req.body);
     const datos = req.body.data.item
     const player = req.body.data.player
     const data= req.body.data.promo
-    console.log(player);
   
     const items = datos.map(elem => {
         return {
