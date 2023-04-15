@@ -29,18 +29,18 @@ const mensajeBienvenida = async (email, subject, html) => {
     }
   };
 
-  const registroNewsletter = async (email, subject, html) => {
+  const registroNewsletter = async (email, subject, html, promo) => {
     if (!Array.isArray(email)) {
       email = [email]; // convertir el correo electrónico a un array si es un string
     }
-  
+    const newHtml = html.replace("HHUUGGOO", promo.code).replace("IIGGNNAACCIIOO", promo.discount);
     for (let i = 0; i < email.length; i++) {
       await transporter.sendMail({
         from: '"FOOTWEAR FUSION" <pt10henry@gmail.com>', //quien envia el mensaje
         to: email[i], //el email al que se va a mandar o varios email ej: to: ["bar@example.com, baz@example.com"]
         subject: subject, //el titulo del correo
         //el cuerpo del correo, puede ser tipo TEXT o HTML
-        html: html,
+        html: newHtml,
       });
     }
   };
