@@ -1,5 +1,6 @@
 const { Promotions, Cart } = require("../db");
 const moment = require('moment');
+const { idCart } = require("./cartControllers");
 
 
 const createPromotion = async (discount) => {
@@ -18,7 +19,7 @@ const getPromotion = async (code) => {
             current: true,
         }
     });
-    if (!codePromo) { return 'Código inválido'};
+    if (!codePromo) { throw new Error('Código inválido')};
     if (currentDate.getTime() < codePromo.expiration.getTime()) {
         return codePromo;
     } else {
@@ -26,17 +27,18 @@ const getPromotion = async (code) => {
     };
 }
 
-const updatePromotion = async (promotionId, cartId) => {
-    const cartUser = await Cart.findByPk(cartId); // Obtener el cart
+const updatePromotion = async (promotionId, userId) => {
+    const cartUser = await idCart(userId); // Obtener el cart
     const codePromo = await Promotions.findOne({
         where: {
             id: promotionId,
             current: true,
         }
     });; // Obtener la promo
-    if (!cartUser) { return 'El usuario no tiene carrito'};
-    if (!codePromo) { return 'Código inválido'};
+    if (!cartUser) { throw new Error('El usuario no tiene carrito') };
+    if (!codePromo) { throw new Error('Código inválido') };
     await codePromo.setCart(cartUser);
+    await cartUser.setPromotion(codePromo)
     codePromo.update({ current: false });
     return codePromo;
 }
