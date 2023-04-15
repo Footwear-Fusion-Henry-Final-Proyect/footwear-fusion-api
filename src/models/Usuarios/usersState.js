@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
     },
     state: {
       type: DataTypes.ENUM,
-      values: ["New", "Active", "Inactive", "Banned", "Locked"],
+      values: ["New", "Active", "Inactive", "Blocked"],
       defaultValue: "New",
       allowNull: false,
     },
