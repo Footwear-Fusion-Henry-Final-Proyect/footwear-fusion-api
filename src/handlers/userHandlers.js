@@ -58,15 +58,9 @@ const getUsersHandler = async (req, res) => {
 const updateUser = async (req, res) => {
   const userId = req.params.id; //tomo el userId de la solicitud
 
-<<<<<<< HEAD
     const role = req.body.Rol;//extraigo por body el roleId, el userState y cualquier otro dato del usuario del body de la solicitud
   
     console.log(role);
-=======
-  const role = req.body.Rol; ///extraigo por body el roleId
-
-  //console.log(role);
->>>>>>> f0f88ddee68eeeeb0194e18341027a9e25a9527c
 
   try {
     const modificacion = await updateUserRole(userId, role);
@@ -175,26 +169,15 @@ const getDataUserHandler =  async (req, res) => {
 }
 
 module.exports = {
-<<<<<<< HEAD
     postUserHandler,
     getUsersHandler,
     postRegistroHandller,
     postLoginUser,
     postLoginGoogle,
     updateUser,
-    getDataUserHandler
+    getDataUserHandler,
+    updateAddressHandler,
+    updatePhoneHandler,
+    updateStateHandler
     
 }
-=======
-  postUserHandler,
-  getUsersHandler,
-  postRegistroHandller,
-  postLoginUser,
-  postLoginGoogle,
-  updateUser,
-  updateAddressHandler,
- updatePhoneHandler,
- updateStateHandler,
- 
-};
->>>>>>> f0f88ddee68eeeeb0194e18341027a9e25a9527c
