@@ -1,15 +1,5 @@
-const {
-  dataUserCreate,
-  getInfoUser,
-  getAllUsers,
-  updateUserRole,
-  updateUserData,
-} = require("../controllers/userControllers");
-const {
-  registreUser,
-  loginUserControllers,
-  loginGoogle,
-} = require("../controllers/registroLoginControllers");
+const { dataUserCreate, getInfoUser, getAllUsers , updateUserRole, getDataUserController} = require("../controllers/userControllers");
+const {registreUser, loginUserControllers, loginGoogle} = require("../controllers/registroLoginControllers");
 
 const postRegistroHandller = async (req, res) => {
   try {
@@ -68,9 +58,9 @@ const getUsersHandler = async (req, res) => {
 const updateUser = async (req, res) => {
   const userId = req.params.id; //tomo el userId de la solicitud
 
-  const role = req.body.Rol; ///extraigo por body el roleId
-
-  //console.log(role);
+    const role = req.body.Rol;//extraigo por body el roleId, el userState y cualquier otro dato del usuario del body de la solicitud
+  
+    console.log(role);
 
   try {
     const modificacion = await updateUserRole(userId, role);
@@ -170,7 +160,8 @@ const updateStateHandler = async (req, res) => { // actualizar estado del usuari
 
 const getDataUserHandler =  async (req, res) => {
     try {
-        const userId = req.params.id
+      console.log(req.params);
+        const userId = req.params.userId
         const datos = await getDataUserController(userId);
         res.status(200).json(datos);
     } catch (error) {
@@ -179,14 +170,15 @@ const getDataUserHandler =  async (req, res) => {
 }
 
 module.exports = {
-  postUserHandler,
-  getUsersHandler,
-  postRegistroHandller,
-  postLoginUser,
-  postLoginGoogle,
-  updateUser,
-  updateAddressHandler,
- updatePhoneHandler,
- updateStateHandler,
- 
-};
+    postUserHandler,
+    getUsersHandler,
+    postRegistroHandller,
+    postLoginUser,
+    postLoginGoogle,
+    updateUser,
+    getDataUserHandler,
+    updateAddressHandler,
+    updatePhoneHandler,
+    updateStateHandler
+    
+}

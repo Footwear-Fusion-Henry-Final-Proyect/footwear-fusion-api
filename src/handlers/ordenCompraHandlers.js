@@ -1,8 +1,7 @@
-const {createOrdenCompra, updateOrdenCompra, getOrdenesCompra, deleteOrdenCompra} = require('../controllers/ordenCompraControllers')
+const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra, deleteOrdenCompra } = require('../controllers/ordenCompraControllers')
 
 const createOrdenCompraHandler = async (req, res) => {
     try {
-        console.log(req.body);
         const userId = req.params.userId;
         const {address, promotion, payment, orderStatus, total} = req.body.orden
         const cart = await createOrdenCompra(address, promotion, payment, orderStatus, total, userId);
@@ -43,8 +42,8 @@ const deleteOrdenCompraHandler = async (req, res) => {
 };
 
 module.exports = {
-    createOrdenCompraHandler, 
-    updateOrdenCompraHandler, 
-    getOrdenesCompraHandler, 
+    createOrdenCompraHandler,
+    updateOrdenCompraHandler,
+    getOrdenesCompraHandler,
     deleteOrdenCompraHandler
 }

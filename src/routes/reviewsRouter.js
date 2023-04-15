@@ -4,6 +4,7 @@ const { verifyToken } = require("../middlewares/userValidator");
 
 const reviewsRouter = Router();
 
-reviewsRouter.post("/:productId",verifyToken, createReviewsHandler)
+reviewsRouter.post("/:productId",verifyToken, createReviewsHandler);
+
 
 module.exports = reviewsRouter;

@@ -60,12 +60,12 @@ const getAllUsers = async () => {
 };
 
 const getInfoUser = async (name) => {
-  const users = await getAllUsers();
-  const buscar = name.toLowerCase().trim();
-  const userEmail = users.filter((user) => {
-    return user.email.toLowerCase().includes(buscar);
-  });
-  if (userEmail.length) return userEmail;
+    const users = await getAllUsers();
+    const buscar = name.toLowerCase().trim();
+    const userEmail = users.filter((user) => {
+        return user.email.toLowerCase().includes(buscar);
+      });
+    if(userEmail.length) return userEmail[0];
 
   const dataName = users.filter((user) => {
     if (user.DataUsers) {
@@ -180,6 +180,15 @@ const updateUserData = async (userId, phone,address, state) => {
 
 };
 
+const getDataUserController = async (userId) =>{
+  console.log(userId);
+  const dataUser = await DataUser.findOne({
+    where: { LoginUserId: userId },
+    attributes: ["id", "name", "last_name", "phone", "address"],
+  })
+  return dataUser
+}
+
 
 module.exports = {
   dataUserCreate,
@@ -187,4 +196,5 @@ module.exports = {
   getAllUsers,
   updateUserRole,
   updateUserData,
+  getDataUserController
 };

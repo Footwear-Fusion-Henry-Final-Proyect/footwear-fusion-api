@@ -1,4 +1,4 @@
-const { crearUserAdmin , adminProductId} = require("../controllers/adminControllers");
+const { crearUserAdmin, adminProductId } = require("../controllers/adminControllers");
 
 const createAdminHandlers = async (req, res) => {
     try {

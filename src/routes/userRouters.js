@@ -9,7 +9,8 @@ const {
  updateUserDataHandler,
  updateAddressHandler,
  updatePhoneHandler,
- updateStateHandler
+ updateStateHandler,
+ getDataUserHandler
 } = require("../handlers/userHandlers");
 
 
@@ -23,8 +24,10 @@ userRouter.post("/google", postLoginGoogle)
 userRouter.post("/:id", postUserHandler);
 userRouter.post("/google", postLoginGoogle)
 userRouter.get("/",[verifyToken, isAdmin], getUsersHandler);
+userRouter.get("/datos/:userId", verifyToken, getDataUserHandler)
 userRouter.put("/:id", updateUser);//userRouter.put("/:id", updateUser);
 userRouter.put("/data/:id", updateAddressHandler, updatePhoneHandler, updateStateHandler)//[verifyToken, isAdmin]
 
 
 module.exports = userRouter;
+
