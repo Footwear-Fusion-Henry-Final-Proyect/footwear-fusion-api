@@ -13,6 +13,8 @@ const createPreferenceHandlers = async (req, res) => {
     console.log(req.body);
     const datos = req.body.data.item
     const player = req.body.data.player
+    const data= req.body.data.promo
+    console.log(player);
   
     const items = datos.map(elem => {
         return {
@@ -31,7 +33,9 @@ const createPreferenceHandlers = async (req, res) => {
    
     let preference = {
         items: items,
+        metadata: data,
         payer: player,
+        promo: player.descuento,
         back_urls: {
             "success": "http://localhost:3000/success",
             "failure": "http://localhost:3000/failure",

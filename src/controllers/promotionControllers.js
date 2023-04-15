@@ -18,7 +18,7 @@ const getPromotion = async (code) => {
             current: true,
         }
     });
-    if (!codePromo) { return 'Código inválido'};
+    if (!codePromo) { throw new Error('Código inválido')};
     if (currentDate.getTime() < codePromo.expiration.getTime()) {
         return codePromo;
     } else {
@@ -34,8 +34,8 @@ const updatePromotion = async (promotionId, cartId) => {
             current: true,
         }
     });; // Obtener la promo
-    if (!cartUser) { return 'El usuario no tiene carrito'};
-    if (!codePromo) { return 'Código inválido'};
+    if (!cartUser) { throw new Error('El usuario no tiene carrito') };
+    if (!codePromo) { throw new Error('Código inválido') };
     await codePromo.setCart(cartUser);
     codePromo.update({ current: false });
     return codePromo;
