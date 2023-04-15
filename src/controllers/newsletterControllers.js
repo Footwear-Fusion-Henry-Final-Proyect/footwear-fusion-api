@@ -1,9 +1,9 @@
 const { Newsletter } = require("../db");
 
 const createNewsletter = async (email) => {
-    const newEmail = await Newsletter.findOrCreate({
-        where: {email},
-    })
+    const correo = await Newsletter.findOne({where : {email: email}});
+    if(correo) throw new Error(`El email ${email} ya esta registrado`)
+    const newEmail = await Newsletter.create({email})
     return newEmail
 }
 
