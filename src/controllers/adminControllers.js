@@ -10,8 +10,8 @@ const crearUserAdmin = async (email, rol) => {
 
   if (user) throw new Error("El usuario ya existe" );
 
-  if (rol !== "admin" && rol !== "Customer")
-    throw new Error("El Rol no existe" );
+  if (rol !== "admin" && rol !== "customer")
+    throw new Error(`El ${rol} no existe` );
 
   const newUser = await registreUser(email, rol.trim());
 
