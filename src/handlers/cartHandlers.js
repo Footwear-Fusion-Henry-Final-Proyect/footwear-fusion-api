@@ -18,12 +18,14 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 
 const createCartHandler = async (req, res) => {
     try {
+        console.log("params", req.params);
+        console.log("body", req.body);
         const loginUserId = req.params.loginUserId;
         const { id, size, description, qty, color, promoCode } = req.body;
         await createNewCart(loginUserId, id, size, description, qty, color, promoCode);
         res.status(201).json('Producto agregado con exito')
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ error: "no se crea carrito" });
     }
 };
 
@@ -34,7 +36,7 @@ const getAllCartsHandler = async (req, res) => {
         loginUser.RoleId === 'administrador' ? getAllCarts() : 'Usuario no autorizado'
         res.status(201).json(allCarts)
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ error: "no trae el cart del usuario" });
     }
 };
 
@@ -56,7 +58,7 @@ const getCartIdHandler = async (req, res) => {
         }) )
         res.status(201).json(cartUser)
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ error: "no trae cart id" });
     }
 };
 
