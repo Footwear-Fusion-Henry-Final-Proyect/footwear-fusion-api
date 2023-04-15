@@ -23,8 +23,8 @@ const getPromotionsHandler = async (req, res) => {
 
 const updatePromotionsHandler = async (req, res) => {
     try {
-        const { promotionId, cartId } = req.params
-        const updatedPromo = await updatePromotion(promotionId, cartId);
+        const { promotionId, userId } = req.params
+        const updatedPromo = await updatePromotion(promotionId, userId);
         res.status(201).json(updatedPromo)
     } catch (error) {
         res.status(404).json({ error: error.message })
