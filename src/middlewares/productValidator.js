@@ -2,7 +2,7 @@
 const validateProduct = (req, res, next) => {
   const { category, color, marca, talle } = req.body;
 
-  if (!category || !color || !marca || !talle) {
+  if (!category || !marca || !talle) {
     return res.status(400).json({ msg: "mandatory fields missing" }); //'faltan campos obligatorios'
   }
   next();
@@ -14,7 +14,7 @@ const validateProduct = (req, res, next) => {
 const validateUpdateProduct = (req, res, next) => {
   const { categoria, color, marca, talle } = req.body;
 
-  if (categoria === "" || color === "" || marca === "" || talle === "") {
+  if (categoria === "" || marca === "" || talle === "") {
     return res.status(400).json({ msg: "empty fields cannot be updated" }); //'No se pueden actualizar campos vacios'
   }
   next();
