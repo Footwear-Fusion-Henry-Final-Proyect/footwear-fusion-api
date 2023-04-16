@@ -8,9 +8,9 @@ const { verifyToken, isAdmin } = require("../middlewares/userValidator");
 
 const correoRouter = Router();
 
-correoRouter.post("/bienvenida",[verifyToken, isAdmin],mensajeBienvenidaHandlers)
+correoRouter.post("/bienvenida",mensajeBienvenidaHandlers)
 correoRouter.post("/registroNewsletter",registroNewsletterHandlers)
-correoRouter.post("/newsletter",[verifyToken, isAdmin],newsletterHandlers)
+correoRouter.post("/newsletter",newsletterHandlers)
 
 
 module.exports = correoRouter;

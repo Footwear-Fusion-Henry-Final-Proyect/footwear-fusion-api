@@ -1,12 +1,10 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const {LoginUser, Role} = require("../db");
+const {LoginUser, Role, UserState} = require("../db");
 const { json } = require("body-parser");
 const { SECRET } = process.env;
 
-const rexgDireccion = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+\s+\d+(?:,\s[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+)*(?:,\s[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+)\s*,\s*[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+\s*,\s*[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+\s*,\s*cp:\s*\d{4,5}$/i
-
-
+const rexgDireccion =/^[^,]+(?:[,\s]+[^,]+)+[,\s]*[a-zA-ZáéíóúüñÑ\s]+[,\s]*[a-zA-ZáéíóúüñÑ\s]+[,\s]*cp:\s*\d{4,5}$/i
 const rexTelefono = /^\+\d{1,4} \d{10,15}$/
 const largoString = /[A-Za-z]{3,}/
 const rexgEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -38,12 +36,8 @@ const isAdmin = async (req, res, next) => {
     const user = await LoginUser.findByPk(req.userId);
     
     if (!user) return res.status(404).json({ message: "user not found" });
-
     const UserRol = await Role.findByPk(user.RoleId); // busco el rol del usuario
-   
-    if (UserRol.Rol !== "admin") return res.status(401).json({ message: "administrator role required" });
-    console.log("rol",UserRol.Rol);
-      
+    if (UserRol.Rol !== "admin") return res.status(401).json({ message: "administrator role required" });   
     next();
   } catch (error) {
     return res.status(500).json({ message: "error" });
@@ -86,6 +80,23 @@ const verifyEmail = (req, res, next) => {
   next();
 }
 
+const isUserBlocked = async (req, res, next) => {
+  try {
+    
+    const user = await LoginUser.findByPk(req.userId);
+    console.log("user", user);
+    if (!user) return res.status(404).json({ message: "user not found" });
+
+    const stateUser = await UserState.findByPk(user.UserStateId); // busco el status del usuario
+   
+    if (stateUser.state === "Blocked") return res.status(401).json({ message: "Usuario blokeado" });
+  
+    next();
+  } catch (error) {
+    return res.status(500).json({ message: "error" });
+  }
+};
+
 
 
 module.exports = {
@@ -93,5 +104,6 @@ module.exports = {
     isAdmin,
     verifyCrearAdmin,
     verifyDataUser,
-    verifyEmail
+    verifyEmail,
+    isUserBlocked
 }
