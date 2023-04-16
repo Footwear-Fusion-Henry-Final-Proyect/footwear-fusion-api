@@ -4,7 +4,9 @@ const {LoginUser, Role} = require("../db");
 const { json } = require("body-parser");
 const { SECRET } = process.env;
 
-const rexgDireccion = /^[a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+ \d+, [a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+, [a-zA-ZáéíóúüÁÉÍÓÚÜ\s]+, cp: \d{4,5}$/
+const rexgDireccion = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+\s+\d+(?:,\s[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+)*(?:,\s[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+)\s*,\s*[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+\s*,\s*[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+\s*,\s*cp:\s*\d{4,5}$/i
+
+
 const rexTelefono = /^\+\d{1,4} \d{10,15}$/
 const largoString = /[A-Za-z]{3,}/
 const rexgEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/

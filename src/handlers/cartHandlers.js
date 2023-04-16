@@ -54,6 +54,7 @@ const getCartIdHandler = async (req, res) => {
             color: cp.ColorProduct,
             qty: cp.qty
         }) )
+        console.log("cartUser",cartUser);
         res.status(201).json(cartUser)
     } catch (error) {
         res.status(404).json({ error: error.message });
