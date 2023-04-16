@@ -84,7 +84,7 @@ const isUserBlocked = async (req, res, next) => {
   try {
     
     const user = await LoginUser.findByPk(req.userId);
-    console.log("user", user);
+
     if (!user) return res.status(404).json({ message: "user not found" });
 
     const stateUser = await UserState.findByPk(user.UserStateId); // busco el status del usuario

@@ -56,12 +56,9 @@ const getUsersHandler = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  console.log(req.body);
   const userId = req.params.id; //tomo el userId de la solicitud
 
-    const role = req.body.rol;//extraigo por body el roleId, el userState y cualquier otro dato del usuario del body de la solicitud
-  
-    console.log(role);
+  const role = req.body.rol;//extraigo por body el roleId, el userState y cualquier otro dato del usuario del body de la solicitud
 
   try {
     const modificacion = await updateUserRole(userId, role);
