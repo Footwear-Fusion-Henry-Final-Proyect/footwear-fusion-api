@@ -4,10 +4,55 @@ const { LoginUser, Role, UserState, DataUser } = require("../db")
 //importamos transporte para mandar los correos
 // const {transporter} = require("../config/nodeMailer");
 
-const { SECRET } = process.env;
+const {SECRET} = process.env;
 
-const registreUser = async (name, last_name, address, phone, email, rol) => {
+// const registreUser = async (email, rol) => {
+    
+//     // Busca el estado "New" en la base de datos
+//     const newStatus = await UserState.findOne({ where: { state: 'New' } });
 
+//     const newUserRegister = await LoginUser.create({
+//         email: email.toLowerCase(),
+//     });
+
+//     //Creo el rol
+//     const newRolUser = await Role.create({Rol: rol});
+
+//     //Asociacion del rol con el usuario
+//     await newRolUser.addLoginUser(newUserRegister)
+
+//     //Asociacion del status
+//     await newStatus.addLoginUser(newUserRegister)
+
+//     //Busco el usuario para incluir el rol
+//     const userLogin = await LoginUser.findOne({
+//         where: { id: newUserRegister.id },
+//         include: [{
+//             model: Role,
+//             attributes: ['Rol'],
+//         },
+//         {
+//             model: UserState,
+//             attributes: ['state'],
+//         }
+//     ]});
+
+//     //Genero el token
+//     const token = jwt.sign({ id: newUserRegister.id }, SECRET, {
+//         expiresIn: 3600, // 1 hora
+//     });
+
+//     //Devuelvo los datos que quiero
+//     return user = {
+//         id: userLogin.id,
+//         email: userLogin.email,
+//         rol: userLogin.Role.Rol,
+//         state: userLogin.UserState.state,
+//         token
+//     };
+// };
+
+const registreUser = async (email, rol) => {
     const newUserRegister = await LoginUser.create({
             email: email.toLowerCase(),
     });
@@ -20,50 +65,50 @@ const registreUser = async (name, last_name, address, phone, email, rol) => {
             phone: phone
     });
 
-    //Creo el rol
-    const newRolUser = await Role.findOne({
-        where:
-        {
-            Rol: rol
+    let newRolUser;
+    if (rol) {
+        // Busco el rol por nombre
+        newRolUser = await Role.findOne({ where: { Rol: rol } });
+        if (!newRolUser) {
+            // Si el rol no existe, lo creo
+            newRolUser = await Role.create({ Rol: rol });
         }
-    });
+    } else {
+        // Si no recibo un rol, le asigno el rol 'customer' por defecto
+        newRolUser = await Role.findOne({ where: { Rol: 'customer' } });
+    }
 
-    //Creo el Status
-    const newStatus = await UserState.create();
+    // Busco el status por nombre
+    const newStatus = await UserState.findOne({ where: { state: 'New' } });
 
-    //Asociacion del rol con el usuario
-    await newStatus.addLoginUser(newUserRegister)
+    // Asociacion del rol con el usuario
+    await newRolUser.addLoginUser(newUserRegister);
 
-    //Asociacion del DataUser
-    await newDataUser.setLoginUser(newUserRegister);
+    // Asociacion del status
+    await newStatus.addLoginUser(newUserRegister);
 
-    //Asociacion del status
-    await newRolUser.addLoginUser(newUserRegister)
-
-    //Busco el usuario para incluir el rol
+    // Busco el usuario para incluir el rol
     const userLogin = await LoginUser.findOne({
         where: { id: newUserRegister.id },
-        include: [{
-            model: Role,
-            attributes: ['Rol'],
-        },
-        {
-            model: UserState,
-            attributes: ['state'],
-        }, {
-            model: DataUser,
-            attributes: ['name', 'last_name', 'phone', 'address'],
-        }
+        include: [
+            {
+                model: Role,
+                attributes: ['Rol'],
+            },
+            {
+                model: UserState,
+                attributes: ['state'],
+            }
         ]
     });
 
-    //Genero el token
+    // Genero el token
     const token = jwt.sign({ id: newUserRegister.id }, SECRET, {
         expiresIn: 3600, // 1 hora
     });
 
-    //Devuelvo los datos que quiero
-    return user = {
+    // Devuelvo los datos que quiero
+    return {
         id: userLogin.id,
         email: userLogin.email,
         rol: userLogin.Role.Rol,

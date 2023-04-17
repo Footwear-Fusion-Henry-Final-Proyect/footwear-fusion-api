@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("UserState", {
+  const UserState = sequelize.define("UserState", {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -14,4 +14,17 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
   }, { timestamps: false });
+//para crear los estados por defectos
+  UserState.afterSync(async () => {
+    const defaultStates = ["New", "Active", "Inactive", "Blocked"];
+
+    for (let state of defaultStates) {
+      const existingState = await UserState.findOne({ where: { state: state } });
+      if (!existingState) {
+        await UserState.create({ state: state });
+      }
+    }
+  });
+
+  return UserState;
 };

@@ -1,4 +1,4 @@
-const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra, deleteOrdenCompra } = require('../controllers/ordenCompraControllers')
+const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra,getOrdenesCompraAdmin, deleteOrdenCompra } = require('../controllers/ordenCompraControllers')
 
 const createOrdenCompraHandler = async (req, res) => {
     try {
@@ -24,7 +24,7 @@ const updateOrdenCompraHandler = async (req, res) => {
 const getOrdenesCompraHandler = async (req, res) => {
     try {
         const loginUserId = req.params.loginUserId;
-        const ordenesCompra = await getOrdenesCompra(loginUserId);
+        const ordenesCompra = loginUserId ? await getOrdenesCompra(loginUserId) : await getOrdenesCompraAdmin() ;
         res.status(201).json(ordenesCompra)
     } catch (error) {
         res.status(404).json({ error: error.message });
