@@ -30,6 +30,7 @@ const dataUserCreate = async (name, last_name, phone, address, id) => {
 };
 
 const getAllUsers = async () => {
+  console.log('getAllUser');
   let allUsers = await LoginUser.findAll({
     attributes: ["email", "id"],
     include: [

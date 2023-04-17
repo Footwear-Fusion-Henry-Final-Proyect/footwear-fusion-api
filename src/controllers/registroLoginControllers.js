@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const {LoginUser, Role, UserState} = require("../db")
+const { LoginUser, Role, UserState, DataUser } = require("../db")
 //importamos transporte para mandar los correos
 // const {transporter} = require("../config/nodeMailer");
 
@@ -54,7 +54,15 @@ const {SECRET} = process.env;
 
 const registreUser = async (email, rol) => {
     const newUserRegister = await LoginUser.create({
-        email: email.toLowerCase(),
+            email: email.toLowerCase(),
+    });
+
+    //Creo dataUser
+    const newDataUser = await DataUser.create({
+            name: name,
+            last_name: last_name,
+            address: address,
+            phone: phone
     });
 
     let newRolUser;
@@ -110,7 +118,7 @@ const registreUser = async (email, rol) => {
 };
 
 const loginUserControllers = async (email) => {
-//Busco el usuario en la base de datos por su email 
+    //Busco el usuario en la base de datos por su email 
     const userLogiado = await LoginUser.findOne({
         where: { email: email.toLowerCase() },
         include: [{
@@ -121,7 +129,8 @@ const loginUserControllers = async (email) => {
             model: UserState,
             attributes: ['state'],
         }
-    ]});
+        ]
+    });
 
     //Genero el token
     const token = jwt.sign({ id: userLogiado.id }, SECRET, {
@@ -141,9 +150,10 @@ const loginUserControllers = async (email) => {
 const loginGoogle = async (email) => {
     //Busco el usuario en la base de datos por su email 
     const buscarUser = await LoginUser.findOne({
-        where: { email: email.toLowerCase() },});
+        where: { email: email.toLowerCase() },
+    });
     //si lo encuentro ejecuto la funcion login para darle acceso
-    if(buscarUser) return await loginUserControllers(email);
+    if (buscarUser) return await loginUserControllers(email);
     //si no la funcion registro para crearlo
     return await registreUser(email);
 
@@ -152,7 +162,7 @@ const loginGoogle = async (email) => {
 
 }
 
-module.exports ={
+module.exports = {
     registreUser,
     loginUserControllers,
     loginGoogle
