@@ -18,8 +18,6 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 
 const createCartHandler = async (req, res) => {
     try {
-        console.log("params", req.params);
-        console.log("body", req.body);
         const loginUserId = req.params.loginUserId;
         const { id, size, description, qty, color, promoCode } = req.body;
         await createNewCart(loginUserId, id, size, description, qty, color, promoCode);
@@ -56,7 +54,6 @@ const getCartIdHandler = async (req, res) => {
             color: cp.ColorProduct,
             qty: cp.qty
         }) )
-        console.log("cartUser",cartUser);
         res.status(201).json(cartUser)
     } catch (error) {
         res.status(404).json({ error: "no trae cart id" });
