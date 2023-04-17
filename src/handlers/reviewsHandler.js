@@ -2,8 +2,7 @@ const {createReviews} = require("../controllers/reviews");
 
 const createReviewsHandler = async (req, res) => {
     try {
-        console.log(req.params);
-        const {punctuation, review} = req.body.puntuacion;
+        const { punctuation, review} = req.body.puntuacion;
         const {productId} = req.params
         const newReviews = await createReviews(punctuation, review, productId);
         res.status(201).json(newReviews)
