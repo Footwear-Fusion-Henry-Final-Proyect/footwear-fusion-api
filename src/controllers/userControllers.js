@@ -114,71 +114,52 @@ const getInfoUser = async (name) => {
     `No se encontraron usuarios que coincidan con este dato: ${name}`
   );
 };
-const updateUserRole = async (userId, role) => {
-  //const adminRole = await Roles.findOne({ where: { name: "admin" } }); //busco el rol del admin en la db
 
+const updateUserRole = async (userId, role) => {
   const user = await LoginUser.findByPk(userId); //busco el usuario por id
   const userRole = await Role.findOne({ where: { Rol: role } });
   if (userRole) {
     user.setRole(userRole.id); //cambio el rol que ya tiene por otro
+    return user; //usuario actualizado con nuevo rol
   } else {
     throw new Error("rol not found");
+  }
+};
+
+const updateUserState = async (userId, state) => {
+  console.log(userId, state);
+  const user = await LoginUser.findByPk(userId); //busco el usuario por id
+  const userState = await UserState.findOne({ where: { state: state } });
+  if (userState) {
+    user.setUserState(userState.id); //cambio el rol que ya tiene por otro
+  } else {
+    throw new Error("sate not found");
   }
   //console.log(user, "adri")
   return user; //usuario actualizado con nuevo rol
 };
 
-const updateUserData = async (userId, phone,address, state) => {
-  try {
-   
-    const user = await LoginUser.findByPk(userId); //busco user por Id
-
-    if (!user) {
-      throw new Error("user not found");
-    }
-
-    let userData = await DataUser.findOne({ where: { LoginUserId: userId } }); //busco usuario por Id (REPETIDO??? linea 134)
-    if (!userData) {
-      userData = await DataUser.create({ LoginUserId: userId, address }); //si no hay direccion se agrega el campo
-    } else {
-      userData.address = address; //si ya hay un campo direccion
-      await userData.save(); //se modifica dato en db
-    }
-
-    if (!userData.phone) {
-      userData.phone = phone;// verifico campo telefono
-      await userData.save(); //si no hay telefono se agrega el campo
-    } else if (userData.phone !== phone) {
-      userData.phone = phone; //si ya hay un campo telefono
-      await userData.save(); //se modifica con el nuevo dato de telefono en la db
-    }
-    // console.log(userData, "prueba");
-
-    let userState = await UserState.findOne({ where: { LoginUserId: userId } }); // verifico y actualizo estado de usuario
-    if (!userState) {
-      userState = await UserState.create({ LoginUserId: userId, state });
-    } else {
-      userState.state = state;
-      await userState.save();
-    }
-     //console.log(userState, "prueba");
-
-    return {
-      positivo: true,
-      message: "datos de usuario actualizados con exito",
-      data: {
-        userData,
-        userState,
-      },
-    };
-  } catch (error) {
-    return {
-      positivo: false,
-      message: error.message,
-    };
+const updateUserAddress = async (userId, address) => {
+  const datos = await DataUser.findOne({ where: { LoginUserId: userId } });  //busco los datos relacionados con el usuario 
+  if (datos) {
+    await datos.update({ address }); //actualizo la dirección en la tabla DataUser
+    return datos; //usuario actualizado
+  } else {
+    throw new Error("Datos no encontrados");
   }
-
 };
+
+const updateUserPhone = async (userId, phone) => {
+  const datos = await DataUser.findOne({ where: { LoginUserId: userId } });  //busco los datos relacionados con el usuario 
+  if (datos) {
+    await datos.update({ phone }); //actualizo la dirección en la tabla DataUser
+    return datos; //usuario actualizado
+  } else {
+    throw new Error("Datos no encontrados");
+  }
+};
+
+
 
 const getDataUserController = async (userId) =>{
   console.log(userId);
@@ -195,6 +176,9 @@ module.exports = {
   getInfoUser,
   getAllUsers,
   updateUserRole,
-  updateUserData,
-  getDataUserController
+  updateUserState,
+  getDataUserController,
+  updateUserAddress,
+  updateUserPhone
+
 };
