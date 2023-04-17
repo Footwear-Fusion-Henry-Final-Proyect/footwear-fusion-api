@@ -5,7 +5,8 @@ const {
   postRegistroHandller,
   postLoginUser,
   postLoginGoogle,
- updateUserRolHandlers,
+ updateUser,
+ updateUserDataHandler,
  updateAddressHandler,
  updatePhoneHandler,
  updateStateHandler,
@@ -23,10 +24,8 @@ userRouter.post("/google", postLoginGoogle)
 userRouter.post("/:id",[verifyToken, verifyDataUser, isUserBlocked], postUserHandler);
 userRouter.get("/",[verifyToken, isAdmin, isUserBlocked], getUsersHandler);
 userRouter.get("/datos/:userId", [verifyToken, isUserBlocked], getDataUserHandler)
-userRouter.put("/:id", [verifyToken,isAdmin, isUserBlocked],updateUserRolHandlers);
-userRouter.put("/state/:id",[verifyToken, isAdmin, isUserBlocked], updateStateHandler)
-userRouter.put("/address/:id",[verifyToken, isUserBlocked], updateAddressHandler)
-userRouter.put("/phone/:id",[verifyToken, isUserBlocked], updatePhoneHandler)
+userRouter.put("/:id", [verifyToken, isUserBlocked],updateUser);//userRouter.put("/:id", updateUser);
+userRouter.put("/data/:id", updateAddressHandler, updatePhoneHandler, updateStateHandler)//[verifyToken, isAdmin]
 
 
 module.exports = userRouter;
