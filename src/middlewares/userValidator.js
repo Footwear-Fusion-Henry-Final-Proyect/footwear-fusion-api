@@ -47,7 +47,7 @@ const isAdmin = async (req, res, next) => {
 
 //Para el registro de nuevo admin que no falte los datos
 const verifyCrearAdmin = async (req, res, next) => {
-  const {email, rol} = req.body;
+  const {email, rol} = req.body.adminData;
   if(!email) return res.status(400).json({ message:"Falta indicar email"});
   if(email && !rexgEmail.test(email)) return res.status(400).json({message: "Formato de email incorrecto"})
   if(!rol) return res.status(400).json({ message:"Falta indicar rol"});

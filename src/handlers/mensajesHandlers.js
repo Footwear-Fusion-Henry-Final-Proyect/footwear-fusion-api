@@ -13,8 +13,9 @@ const mensajeBienvenidaHandlers = async (req, res) => {
 
 const registroNewsletterHandlers = async (req, res) => {
     try {
-      const { email, subject, html } = req.body;
-      const newMensje = await registroNewsletter(email, subject, html);
+      const { email, subject, html } = req.body.data.correo;
+      const promo = req.body.data.promo;
+      const newMensje = await registroNewsletter(email, subject, html, promo);
       if (newMensje) res.status(200).json("Mensajes Enviados");
     } catch (error) {
       console.log(error);
