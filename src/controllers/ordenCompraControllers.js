@@ -1,5 +1,6 @@
 const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser, DataUser, OrdenCompra, MarcaProduct } = require("../db");
 const { idCart } = require("./cartControllers");
+const { mensajeCompra } = require("./mensajesControllers");
 
 
 const createOrdenCompra = async (address, promotion, payment, orderStatus, total, userId) => {
@@ -16,6 +17,7 @@ const createOrdenCompra = async (address, promotion, payment, orderStatus, total
         newOrden.setCart(cart.id);
         cart.setOrdenCompra(newOrden)
         newOrden.setLoginUser(user);
+        mensajeCompra(newOrden, userId);
         return newOrden
     }
 };
