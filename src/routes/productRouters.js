@@ -1,11 +1,10 @@
 const { Router } = require("express");
 const { createProductHandler, getProductHandler, getProductIdHandler, updateProductHandler, productPunctuationHandler } = require("../handlers/productHandlers");
-const { validateProduct} = require("../middlewares/productValidator");
 const { verifyToken, isAdmin, isUserBlocked } = require("../middlewares/userValidator");
 
 const productRouter = Router();
 
-productRouter.post("/",createProductHandler)
+productRouter.post("/",[verifyToken, isAdmin, isUserBlocked],createProductHandler)
 productRouter.get("/", getProductHandler)
 productRouter.get("/punctuation",productPunctuationHandler)
 productRouter.get("/:pruductId", getProductIdHandler)

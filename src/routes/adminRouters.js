@@ -7,8 +7,7 @@ const { verifyToken, isAdmin, verifyCrearAdmin, isUserBlocked } = require("../mi
 
 const adminRouter = Router();
 
-// adminRouter.post("/registro",[verifyToken, isAdmin, verifyCrearAdmin, isUserBlocked], createAdminHandlers)
-adminRouter.post("/registro", createAdminHandlers)
+adminRouter.post("/registro",[verifyToken, isAdmin, verifyCrearAdmin, isUserBlocked], createAdminHandlers)
 adminRouter.get("/product/:pruductId", adminProductIdHandler)
 
 
