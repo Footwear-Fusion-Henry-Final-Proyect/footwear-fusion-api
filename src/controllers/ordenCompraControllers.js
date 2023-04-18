@@ -63,7 +63,7 @@ const getOrdenesCompra = async (loginUserId) => {
                 ],
             });
 
-            oc.dataValues.comprasProducto = compras; // Asignar la propiedad `comprasProducto` al objeto `oc`
+            oc.dataValues.comprasProducto = compras; 
 
             return {
                 id: oc.dataValues.id,
