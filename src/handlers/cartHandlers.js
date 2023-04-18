@@ -18,23 +18,25 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 
 const createCartHandler = async (req, res) => {
     try {
+        console.log("params", req.params);
+        console.log("body", req.body);
         const loginUserId = req.params.loginUserId;
         const { id, size, description, qty, color, promoCode } = req.body;
         await createNewCart(loginUserId, id, size, description, qty, color, promoCode);
         res.status(201).json('Producto agregado con exito')
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ error: "no se crea carrito" });
     }
 };
 
 const getAllCartsHandler = async (req, res) => {
     try {
-        const loginUserId = req.params.loginUserId; //token o validación para administrador
+        const loginUserId = req.params.loginUserId;
         const loginUser = await LoginUser.findByPk(loginUserId);
         loginUser.RoleId === 'administrador' ? getAllCarts() : 'Usuario no autorizado'
         res.status(201).json(allCarts)
     } catch (error) {
-        res.status(404).json({ error: "ERROR GET ALL CARTS HANDLER" });
+        res.status(404).json({ error: "no trae el cart del usuario" });
     }
 };
 
@@ -42,21 +44,9 @@ const getCartIdHandler = async (req, res) => {
     try {
         const loginUserId = req.params.loginUserId;
         const cart = await getCartId(loginUserId);
-        const cartUser = cart.map(cp => ({
-            compraProductId: cp.id,
-            id: cp.ProductId,
-            code: cp.Product.code,
-            title: cp.Product.title,
-            image: cp.Product.image,
-            price: cp.Product.price,
-            marca: cp.Product.MarcaProducts[0].name,
-            talle: cp.TalleProduct.talle,
-            color: cp.ColorProduct,
-            qty: cp.qty
-        }) )
-        res.status(201).json(cartUser)
+        res.status(201).json(cart)
     } catch (error) {
-        res.status(404).json({ error: "ERROR GET CART ID HANDLER" });
+        res.status(404).json({ error: error.message });
     }
 };
 

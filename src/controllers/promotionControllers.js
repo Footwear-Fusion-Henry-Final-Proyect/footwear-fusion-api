@@ -4,13 +4,9 @@ const { idCart } = require("./cartControllers");
 
 
 const createPromotion = async (discount) => {
-    const newPromo = await Promotions.create({
+    const promo = await Promotions.create({
         discount
     })
-    const promo = {
-        code: newPromo.dataValues.code,
-        discount : newPromo.dataValues.discount
-    }
     return promo;
 }
 

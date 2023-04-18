@@ -1,4 +1,4 @@
-const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra,getOrdenesCompraAdmin, deleteOrdenCompra } = require('../controllers/ordenCompraControllers')
+const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra, deleteOrdenCompra, getOrdenesCompraAdmin } = require('../controllers/ordenCompraControllers')
 
 const createOrdenCompraHandler = async (req, res) => {
     try {
