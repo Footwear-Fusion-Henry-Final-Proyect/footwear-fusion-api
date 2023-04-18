@@ -1,9 +1,9 @@
-const { crearUserAdmin , adminProductId} = require("../controllers/adminControllers");
+const { crearUserAdmin, adminProductId } = require("../controllers/adminControllers");
 
 const createAdminHandlers = async (req, res) => {
     try {
-        const {email, rol} = req.body;
-        const newUser = await crearUserAdmin(email, rol);
+        const {name, last_name, address, phone, email, rol} = req.body.adminData;
+        const newUser = await crearUserAdmin(name, last_name, address, phone, email, rol);
         if(newUser) res.status(201).json(newUser)
     } catch (error) {
         console.log(error);

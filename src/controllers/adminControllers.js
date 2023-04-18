@@ -2,19 +2,19 @@ const { LoginUser, Role, UserState } = require("../db");
 const { getProduct } = require("./productControllers");
 const { registreUser } = require("./registroLoginControllers");
 
-const crearUserAdmin = async (email, rol) => {
+
+const crearUserAdmin = async (name, last_name, address, phone, email, rol) => {
+  console.log(name, last_name, address, phone, email, rol, 'controller');
+  let currentUser;
   const user = await LoginUser.findOne({
     where: { email: email.trim().toLowerCase() },
   });
+  if (rol !== "admin" && rol !== "customer")
+    throw new Error(`El ${rol} no existe` );
 
-  if (user) throw new Error("El usuario ya existe" );
+  user ? currentUser = user : currentUser = await registreUser(name, last_name, address, phone, email, rol.trim()); 
 
-  if (rol !== "admin" && rol !== "Customer")
-    throw new Error("El Rol no existe" );
-
-  const newUser = await registreUser(email, rol.trim());
-
-  return newUser;
+  return currentUser;
 };
 
 const adminProductId = async (pruductId) => {

@@ -5,27 +5,29 @@ const {
   postRegistroHandller,
   postLoginUser,
   postLoginGoogle,
- updateUser,
- updateUserDataHandler,
+ updateUserRolHandlers,
  updateAddressHandler,
  updatePhoneHandler,
- updateStateHandler
+ updateStateHandler,
+ getDataUserHandler
 } = require("../handlers/userHandlers");
 
 
-const { verifyToken, isAdmin } = require("../middlewares/userValidator");
+const { verifyToken, isAdmin, verifyDataUser, verifyEmail, isUserBlocked } = require("../middlewares/userValidator");
 
 const userRouter = Router();
 
-userRouter.post("/registro", postRegistroHandller)
+userRouter.post("/registro",verifyEmail, postRegistroHandller)
 userRouter.post("/login", postLoginUser)
 userRouter.post("/google", postLoginGoogle)
-userRouter.post("/:id", postUserHandler);
-userRouter.post("/google", postLoginGoogle)
-userRouter.get("/", getUsersHandler);
-userRouter.get("/",[verifyToken, isAdmin], getUsersHandler);
-userRouter.put("/:id", updateUser);//userRouter.put("/:id", updateUser);
-userRouter.put("/data/:id", updateAddressHandler, updatePhoneHandler, updateStateHandler)//[verifyToken, isAdmin]
+userRouter.post("/:id",[verifyToken, verifyDataUser, isUserBlocked], postUserHandler);
+userRouter.get("/",[verifyToken, isAdmin, isUserBlocked], getUsersHandler);
+userRouter.get("/datos/:userId", [verifyToken, isUserBlocked], getDataUserHandler)
+userRouter.put("/:id", [verifyToken,isAdmin, isUserBlocked],updateUserRolHandlers);
+userRouter.put("/state/:id",[verifyToken, isAdmin, isUserBlocked], updateStateHandler)
+userRouter.put("/address/:id",[verifyToken, isUserBlocked], updateAddressHandler)
+userRouter.put("/phone/:id",[verifyToken, isUserBlocked], updatePhoneHandler)
 
 
 module.exports = userRouter;
+

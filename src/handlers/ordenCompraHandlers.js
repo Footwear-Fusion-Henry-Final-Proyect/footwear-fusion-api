@@ -1,9 +1,10 @@
-const {createOrdenCompra, updateOrdenCompra, getOrdenCompra, deleteOrdenCompra} = require('../controllers/ordenCompraControllers')
+const { createOrdenCompra, updateOrdenCompra, getOrdenesCompra,getOrdenesCompraAdmin, deleteOrdenCompra } = require('../controllers/ordenCompraControllers')
 
 const createOrdenCompraHandler = async (req, res) => {
     try {
-        const loginUserId = req.params.loginUserId;
-        const cart = await createOrdenCompra(loginUserId);
+        const userId = req.params.userId;
+        const {address, promotion, payment, orderStatus, total} = req.body.orden
+        const cart = await createOrdenCompra(address, promotion, payment, orderStatus, total, userId);
         res.status(201).json(cart)
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -20,11 +21,11 @@ const updateOrdenCompraHandler = async (req, res) => {
     }
 };
 
-const getOrdenCompraHandler = async (req, res) => {
+const getOrdenesCompraHandler = async (req, res) => {
     try {
         const loginUserId = req.params.loginUserId;
-        const cart = await getOrdenCompra(loginUserId);
-        res.status(201).json(cart)
+        const ordenesCompra = loginUserId ? await getOrdenesCompra(loginUserId) : await getOrdenesCompraAdmin() ;
+        res.status(201).json(ordenesCompra)
     } catch (error) {
         res.status(404).json({ error: error.message });
     }
@@ -41,8 +42,8 @@ const deleteOrdenCompraHandler = async (req, res) => {
 };
 
 module.exports = {
-    createOrdenCompraHandler, 
-    updateOrdenCompraHandler, 
-    getOrdenCompraHandler, 
+    createOrdenCompraHandler,
+    updateOrdenCompraHandler,
+    getOrdenesCompraHandler,
     deleteOrdenCompraHandler
 }

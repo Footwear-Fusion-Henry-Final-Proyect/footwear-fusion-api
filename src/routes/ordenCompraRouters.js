@@ -1,11 +1,12 @@
 const { Router } = require("express");
-const { createOrdenCompraHandler, updateOrdenCompraHandler, getOrdenCompraHandler, deleteOrdenCompraHandler } = require("../handlers/ordenCompraHandlers");
+const { createOrdenCompraHandler, updateOrdenCompraHandler, getOrdenesCompraHandler, deleteOrdenCompraHandler } = require("../handlers/ordenCompraHandlers");
 
 const ordenCompraRouters = Router();
 
-ordenCompraRouters.post("/:cartId", createOrdenCompraHandler)
+ordenCompraRouters.post("/:userId", createOrdenCompraHandler)
 ordenCompraRouters.put("/:ordenCompraId", updateOrdenCompraHandler)
-ordenCompraRouters.get("/:loginUserId", getOrdenCompraHandler)
+ordenCompraRouters.get("/admin", getOrdenesCompraHandler)
+ordenCompraRouters.get("/:loginUserId", getOrdenesCompraHandler)
 ordenCompraRouters.delete("/:ordenCompraId", deleteOrdenCompraHandler)
 
 module.exports = ordenCompraRouters;

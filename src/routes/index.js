@@ -12,6 +12,7 @@ const preciosRouters = require("./preciosRouters");
 const mpRouters = require('./mpRouters')
 const adminRouter = require("./adminRouters")
 const correoRouter = require("./mensajesRouters")
+const promotionsRouter = require("./promotionsRouter")
 
 const router = Router();
 
@@ -28,5 +29,6 @@ router.use('/precios', preciosRouters);
 router.use('/mp', mpRouters)
 router.use("/admin", adminRouter)
 router.use("/correo", correoRouter)
+router.use("/promotions", promotionsRouter)
 
 module.exports = router;

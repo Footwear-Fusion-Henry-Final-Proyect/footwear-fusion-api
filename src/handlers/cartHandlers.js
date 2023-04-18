@@ -1,4 +1,4 @@
-const { createNewCart, getCartId, updateCartId, updateUserCart, getAllCarts } = require("../controllers/cartControllers")
+const { createNewCart, getCartId, updateCartId, updateUserCart, getAllCarts, idCart } = require("../controllers/cartControllers")
 const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, LoginUser } = require("../db")
 
 // const selectCartHandler = async (req, res) => {
@@ -17,7 +17,6 @@ const { Product, TalleProduct, ColorProduct, CompraProducto, Cart, Promotions, L
 // };
 
 const createCartHandler = async (req, res) => {
-    console.log(req.body, req.params.loginUserId, 'cartHandler');
     try {
         const loginUserId = req.params.loginUserId;
         const { id, size, description, qty, color, promoCode } = req.body;
@@ -35,7 +34,7 @@ const getAllCartsHandler = async (req, res) => {
         loginUser.RoleId === 'administrador' ? getAllCarts() : 'Usuario no autorizado'
         res.status(201).json(allCarts)
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ error: "ERROR GET ALL CARTS HANDLER" });
     }
 };
 
@@ -44,6 +43,7 @@ const getCartIdHandler = async (req, res) => {
         const loginUserId = req.params.loginUserId;
         const cart = await getCartId(loginUserId);
         const cartUser = cart.map(cp => ({
+            compraProductId: cp.id,
             id: cp.ProductId,
             code: cp.Product.code,
             title: cp.Product.title,
@@ -56,7 +56,7 @@ const getCartIdHandler = async (req, res) => {
         }) )
         res.status(201).json(cartUser)
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(404).json({ error: "ERROR GET CART ID HANDLER" });
     }
 };
 
@@ -72,9 +72,20 @@ const updateCartIdHandler = async (req, res) => {
     }
 };
 
+const getCartIDdHandler = async (req, res) => {
+    try {
+        const loginUserId = req.params.loginUserId;
+        const cart = await idCart(loginUserId);
+        res.status(201).json(cart)
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
+
 module.exports = {
     createCartHandler,
     getCartIdHandler,
     updateCartIdHandler,
-    getAllCartsHandler
+    getAllCartsHandler,
+    getCartIDdHandler
 }

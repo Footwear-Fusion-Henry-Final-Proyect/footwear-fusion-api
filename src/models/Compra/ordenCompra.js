@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const moment = require('moment');
 
 module.exports = (sequelize) => {
     sequelize.define("OrdenCompra", {
@@ -18,15 +19,15 @@ module.exports = (sequelize) => {
         },
         createdAt: {
             type: DataTypes.DATE,
-            allowNull: false,
+            defaultValue: () => moment()
         },
         payment: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         orderStatus: {
-            type: DataTypes.ENUM,
-            values: ["created", "processing", "shipped", "cancelled", "completed"],
+            type: DataTypes.STRING,
+            // values: ["created", "processing", "shipped", "cancelled", "completed"],
             defaultValue: "created",
             allowNull: false,
         },

@@ -1,15 +1,5 @@
-const {
-  dataUserCreate,
-  getInfoUser,
-  getAllUsers,
-  updateUserRole,
-  updateUserData,
-} = require("../controllers/userControllers");
-const {
-  registreUser,
-  loginUserControllers,
-  loginGoogle,
-} = require("../controllers/registroLoginControllers");
+const { dataUserCreate, getInfoUser, getAllUsers , updateUserRole, getDataUserController, updateUserState, updateUserAddress, updateUserPhone} = require("../controllers/userControllers");
+const {registreUser, loginUserControllers, loginGoogle} = require("../controllers/registroLoginControllers");
 
 const postRegistroHandller = async (req, res) => {
   try {
@@ -65,12 +55,10 @@ const getUsersHandler = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUserRolHandlers = async (req, res) => {
   const userId = req.params.id; //tomo el userId de la solicitud
 
-  const role = req.body.Rol; ///extraigo por body el roleId
-
-  //console.log(role);
+  const role = req.body.rol;//extraigo por body el roleId, el userState y cualquier otro dato del usuario del body de la solicitud
 
   try {
     const modificacion = await updateUserRole(userId, role);
@@ -83,101 +71,66 @@ const updateUser = async (req, res) => {
 
 // actualizar dirección del usuario
 const updateAddressHandler = async (req, res) => {
-  const userId = req.params.id;
-  const address = req.body.address;
-  
-  if (!userId || !address) {
-    return res.status(400).json({ error: "datos invalidos" });
-  }
-  
   try {
-    res.status(202).json({ message: "actualizando dirección del usuario" });
-    
-    const resultado = await updateUserData(userId, null, address, null);
-    
-    if (resultado.exitoso) {
-      res.status(200).json({
-        message: "dirección actualizada",
-        data: resultado.data.userData.address,
-      });
-    } else {
-      res
-      .status(400)
-      .json({ error: "datos invalidos", message: resultado.message });
-    }
+    const userId = req.params.id;
+    const address = req.body.address;
+    const resultado = await updateUserAddress(userId, address);
+    res.status(202).json(resultado);
   } catch (error) {
-    //res.status(404).json(error.message);
+    res.status(404).json(error.message);
   }
 };
 
 // actualizar telefono del usuario
 const updatePhoneHandler = async (req, res) => {
-  const userId = req.params.id;
-  const phone = req.body.phone;
-  
-  if (!userId || !phone) {
-    return res.status(400).json({ error: "datos invalidos" });
-  }
-  
   try {
-    res.status(202).json({ message: "actualizando teléfono del usuario" });
-    
-    const resultado = await updateUserData(userId, phone, null, null);
-    
-    if (resultado.exitoso) {
-      res.status(200).json({
-        message: "teléfono actualizado",
-        data: resultado.data.userData.phone,
-      });
-    } else {
-      res
-      .status(400)
-      .json({ error: "datos invalidos", message: resultado.message });
-    }
+    const userId = req.params.id;
+    const phone = req.body.phone;
+    const resultado = await updateUserPhone(userId, phone);
+    res.status(202).json(resultado);
   } catch (error) {
-    //res.status(404).json(error.message);
+    res.status(404).json(error.message);
   }
 };
+
+
 const updateStateHandler = async (req, res) => { // actualizar estado del usuario
-  const userId = req.params.id;
-  const state = req.body.state;
-
-  if (!userId || !state) {
-    return res.status(400).json({ error: "datos invalidos" });
-  }
-
   try {
-    res.status(202).json({ message: "actualizando estado del usuario" });
+    const userId = req.params.id;
+    const state = req.body.state;
+    
+    console.log("updateStateHandler",state);
+    const resultado = await updateUserState(userId, state);
+    res.status(202).json(resultado);
 
-    const resultado = await updateUserData(userId, null, null, state);
-
-    if (resultado.exitoso) {
-      res.status(200).json({
-        message: "estado actualizado",
-        data: resultado.data.userState.state,
-      });
-    } else {
-      res
-        .status(400)
-        .json({ error: "datos invalidos", message: resultado.message });
-    }
   } catch (error) {
-    //res.status(404).json(error.message);
+    res.status(404).json(error.message);
   }
 };
 
 
 
+const getDataUserHandler =  async (req, res) => {
+    try {
+      console.log(req.params);
+        const userId = req.params.userId
+        const datos = await getDataUserController(userId);
+        res.status(200).json(datos);
+    } catch (error) {
+        res.status(400).json (error.message );
+    }
+}
 
 module.exports = {
-  postUserHandler,
-  getUsersHandler,
-  postRegistroHandller,
-  postLoginUser,
-  postLoginGoogle,
-  updateUser,
-  updateAddressHandler,
- updatePhoneHandler,
- updateStateHandler,
- 
-};
+    postUserHandler,
+    getUsersHandler,
+    postRegistroHandller,
+    postLoginUser,
+    postLoginGoogle,
+    updateUserRolHandlers,
+    getDataUserHandler,
+    updateAddressHandler,
+    updatePhoneHandler,
+    updateStateHandler
+    
+}
