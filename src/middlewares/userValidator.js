@@ -4,7 +4,7 @@ const {LoginUser, Role, UserState} = require("../db");
 const { json } = require("body-parser");
 const { SECRET } = process.env;
 
-const rexgDireccion =/^[^,]+(?:[,\s]+[^,]+)+[,\s]*[a-zA-ZáéíóúüñÑ\s]+[,\s]*[a-zA-ZáéíóúüñÑ\s]+[,\s]*cp:\s*\d{4,5}$/i
+// const rexgDireccion =/^[^,]+(?:[,\s]+[^,]+)+[,\s]*[a-zA-ZáéíóúüñÑ\s]+[,\s]*[a-zA-ZáéíóúüñÑ\s]+[,\s]*cp:\s*\d{4,5}$/i
 const rexTelefono = /^\+\d{1,4} \d{10,15}$/
 const largoString = /[A-Za-z]{3,}/
 const rexgEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -47,7 +47,7 @@ const isAdmin = async (req, res, next) => {
 
 //Para el registro de nuevo admin que no falte los datos
 const verifyCrearAdmin = async (req, res, next) => {
-  const {email, rol} = req.body.adminData;
+  const {email, rol} = req.body;
   if(!email) return res.status(400).json({ message:"Falta indicar email"});
   if(email && !rexgEmail.test(email)) return res.status(400).json({message: "Formato de email incorrecto"})
   if(!rol) return res.status(400).json({ message:"Falta indicar rol"});
@@ -69,7 +69,7 @@ const verifyDataUser = async (req, res, next) => {
   if(!phone) return res.status(400).json({message: "Falta indicar teléfono"});
   if(phone && !rexTelefono.test(phone)) return res.status(400).json({message: "Error en formato de telefono, colocar: +54 1155555555"})
   if(!address) return res.status(400).json({message: "Falta indicar dirección"});
-  if(address && !rexgDireccion.test(address)) return res.status(400).json({message: "Error en formato de dirección, colocar: calle numero, localida, provincia, cp: numero"})
+  // if(address && !rexgDireccion.test(address)) return res.status(400).json({message: "Error en formato de dirección, colocar: calle numero, localida, provincia, cp: numero"})
   next();
 }
 

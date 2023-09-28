@@ -15,6 +15,7 @@ app.use('/', routes);
 
 // Error catching endware.
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  //res.header("Access-Control-Allow-Origin", "https://fusion-footwear.vercel.app/");
   const status = err.status || 500;
   const message = err.message || err;
   console.error(err);

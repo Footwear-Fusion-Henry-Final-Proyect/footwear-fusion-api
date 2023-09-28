@@ -132,6 +132,7 @@ const getOrdenesCompraAdmin = async () => {
                 promotion: oc.dataValues.promotion,
                 payment: oc.dataValues.payment,
                 orderStatus: oc.dataValues.orderStatus,
+                fecha:oc.dataValues.createdAt,
                 total: oc.dataValues.total,
                 comprasProducto: oc.dataValues.comprasProducto.map((cp) => {
                     return {

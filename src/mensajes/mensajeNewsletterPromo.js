@@ -1,8 +1,8 @@
-const detalleDeCompra = 
+const mensajeNewsletterPromo = 
 `<html>
 <head>
   <meta charset="utf-8">
-  <title>Detalle de compra</title>
+  <title>Confirmación de registro</title>
   <style>
     body {
       margin: 0;
@@ -40,10 +40,12 @@ const detalleDeCompra =
     <tr>
       <td>
         <img src="http://eugenioaragon.com.ar/footwear/logo.png" alt="Logo de la empresa" >
-        <h3>¡Compra exitosa!</h3>
-        <h4>Detalle de tu compra:</h4>
-        <p>TOTAL COMPRA: TTOOTTAALL</p>
-        <p>DIRECCIÓN DE ENVÍO: DDIIRREECCCCIIOONN</p>
+        <h3>¡Ya estás registrado!</h3>
+        <h4>Disfrutá este codigo de descuento:</h4>
+        <p>CÓDIGO: CCOODDEE</p>
+        <p>DESCUENTO: DDIISSCCOOUUNNTT % OFF</p>
+        <p>TENÉS TIEMPO HASTA: FFEECCHHAA</p>
+        <p>A partir de ahora vas a recibir todas las novedades y promociones que tenemos pensadas para vos!</p>
       </td>
     </tr>
     <tr>
@@ -58,5 +60,5 @@ const detalleDeCompra =
 ;
 
 module.exports = {
-    detalleDeCompra
+    mensajeNewsletterPromo
 }

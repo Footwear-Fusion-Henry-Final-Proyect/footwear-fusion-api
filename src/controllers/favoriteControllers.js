@@ -31,6 +31,7 @@ const getFavoritos = async (userId) => {
         model: MarcaProduct,
         attributes: ['name']
     }
+    
 ] });
 
 const producFavorite = favoritos.map(produc => {
@@ -43,7 +44,8 @@ const producFavorite = favoritos.map(produc => {
     }
 })
 
-    return producFavorite
+if(!favoritos) return "Todavia no tiene Favoritos cargados"
+return producFavorite
 }
 
 //para remover un usuario, se usa el metodo removeProduct() que se crea de la relacion de las tablas

@@ -30,7 +30,6 @@ const dataUserCreate = async (name, last_name, phone, address, id) => {
 };
 
 const getAllUsers = async () => {
-  console.log('getAllUser');
   let allUsers = await LoginUser.findAll({
     attributes: ["email", "id"],
     include: [
@@ -130,13 +129,20 @@ const updateUserRole = async (userId, role) => {
 const updateUserState = async (userId, state) => {
   console.log(userId, state);
   const user = await LoginUser.findByPk(userId); //busco el usuario por id
+  console.log(user);
   const userState = await UserState.findOne({ where: { state: state } });
+  if(!userState){
+    if(state === "Blocked" || state === "Inactive" || state === "Active"){
+     const stateUser = await UserState.create({ state: state });
+     user.setUserState(stateUser.id); //cambio el state que ya tiene por otro
+    }throw new Error("sate no permitido");
+  } 
   if (userState) {
-    user.setUserState(userState.id); //cambio el rol que ya tiene por otro
+    user.setUserState(userState.id); //cambio el state que ya tiene por otro
   } else {
     throw new Error("sate not found");
   }
-  //console.log(user, "adri")
+  
   return user; //usuario actualizado con nuevo rol
 };
 
@@ -183,3 +189,4 @@ module.exports = {
   updateUserPhone
 
 };
+

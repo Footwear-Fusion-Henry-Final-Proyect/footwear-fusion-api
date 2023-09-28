@@ -41,7 +41,19 @@ const getCartId = async (loginUserId) => {
             }
         ]
     });
-    return comprasProductosUserId
+    const cartUser = comprasProductosUserId.map(cp => ({
+        compraProductId: cp.id,
+        id: cp.ProductId,
+        code: cp.Product.code,
+        title: cp.Product.title,
+        image: cp.Product.image,
+        price: cp.Product.price,
+        marca: cp.Product.MarcaProducts[0].name,
+        talle: cp.TalleProduct.talle,
+        color: cp.ColorProduct,
+        qty: cp.qty
+    }) )
+    return cartUser
 }
 
 const getAllCarts = async () => { //falta validación con token
